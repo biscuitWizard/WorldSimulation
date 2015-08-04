@@ -53,6 +53,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WorldSimulation.Visualizer.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ArrayT, Version=2.0.5.0, Culture=neutral, PublicKeyToken=d57b0d6d53cb1fc1, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -97,54 +100,49 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Tabs\ItemsTab.xaml.cs">
+    <Compile Include="Simulations\BasicSimulation.cs" />
+    <Compile Include="ISimulation.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Interface\Tabs\ItemsTab.xaml.cs">
       <DependentUpon>ItemsTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tabs\OrganizationsTab.xaml.cs">
+    <Compile Include="Interface\Tabs\OrganizationsTab.xaml.cs">
       <DependentUpon>OrganizationsTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tabs\PeopleTab.xaml.cs">
+    <Compile Include="Interface\Tabs\PeopleTab.xaml.cs">
       <DependentUpon>PeopleTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tabs\SimulationTab.xaml.cs">
+    <Compile Include="Interface\Tabs\SimulationTab.xaml.cs">
       <DependentUpon>SimulationTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tabs\TerritoriesTab.xaml.cs">
+    <Compile Include="Interface\Tabs\TerritoriesTab.xaml.cs">
       <DependentUpon>TerritoriesTab.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Interface\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Interface\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Tabs\ItemsTab.xaml">
+    <Page Include="Interface\Tabs\ItemsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tabs\OrganizationsTab.xaml">
+    <Page Include="Interface\Tabs\OrganizationsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tabs\PeopleTab.xaml">
+    <Page Include="Interface\Tabs\PeopleTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tabs\SimulationTab.xaml">
+    <Page Include="Interface\Tabs\SimulationTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tabs\TerritoriesTab.xaml">
+    <Page Include="Interface\Tabs\TerritoriesTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

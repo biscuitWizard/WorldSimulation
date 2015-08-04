@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F43B31B-BE91-47F3-8713-8F5AD01267BD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WorldSimulation</RootNamespace>
+    <AssemblyName>WorldSimulation</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caches\BaseDictionaryCache.cs" />
+    <Compile Include="Caches\IDataEntityCache.cs" />
+    <Compile Include="Caches\IProfessionCache.cs" />
+    <Compile Include="Caches\ITerritoryCache.cs" />
+    <Compile Include="DataEntity.cs" />
+    <Compile Include="Disposition\DispositionArchitecture.cs" />
+    <Compile Include="Disposition\DispositionConfigurations\PersonalityDispositionConfiguration.cs" />
+    <Compile Include="Disposition\DispositionConfigurations\IndustryDispositionConfiguration.cs" />
+    <Compile Include="Disposition\DispositionConfigurations\MarketDispositionConfiguration.cs" />
+    <Compile Include="Disposition\DispositionConfigurations\PoliticalDispositionConfiguration.cs" />
+    <Compile Include="Disposition\DispositionConfigurations\ScienceDispositionConfiguration.cs" />
+    <Compile Include="Disposition\IDispositionConfiguration.cs" />
+    <Compile Include="Disposition\Proclivity.cs" />
+    <Compile Include="Entities\CommodityBlueprint.cs" />
+    <Compile Include="Entities\CommodityInstance.cs" />
+    <Compile Include="Entities\Organization.cs" />
+    <Compile Include="LinqExtensions.cs" />
+    <Compile Include="Flag.cs" />
+    <Compile Include="People\Fate.cs" />
+    <Compile Include="People\LifeEvents\Assets\Industry\CreateCommodityLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Assets\ObtainCommodityLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Assets\SellCommodityLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Criminal\ArsonLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Criminal\LarcenyLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Criminal\MurderLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Education\PrimarySchoolLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Education\SecondarySchoolLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Education\TradeSchoolLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Education\UniversityLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Locations\Exploration\ExploreTerritoryLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Organizations\CreateOrganizationLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\Research\BeginResearchLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\Research\CompleteResearchLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\Research\ContributeResearchLifeEvent.cs" />
+    <Compile Include="PerlinNoise1D.cs" />
+    <Compile Include="Caches\IPersonCache.cs" />
+    <Compile Include="Caches\People\DictionaryPersonCache.cs" />
+    <Compile Include="Caches\People\RedisPersonCache.cs" />
+    <Compile Include="People\ChancesEnum.cs" />
+    <Compile Include="People\Generators\FirstNameGenerator.cs" />
+    <Compile Include="People\Generators\LastNameGenerator.cs" />
+    <Compile Include="People\ILifeEvent.cs" />
+    <Compile Include="People\IPersonBuilder.cs" />
+    <Compile Include="People\LifeEvents\LifeCycle\DeathLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\LifeCycle\GenderChangeLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Relations\GetMarriedLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\LifeCycle\HaveChildrenLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Relations\HaveDivorceLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Locations\MoveLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Locations\SettleLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Relations\Social\NameChangeLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Relations\OrphanedLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\FiredLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\GetJobLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Professions\SwitchJobLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\LifeCycle\SexReassignmentLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\LifeCycle\SexualityChangeLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Locations\TravelLifeEvent.cs" />
+    <Compile Include="Entities\Person.cs" />
+    <Compile Include="People\Generators\PersonBuilder.cs" />
+    <Compile Include="People\PersonalHistory.cs" />
+    <Compile Include="People\Population.cs" />
+    <Compile Include="People\TimeLine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quality.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Caches\World\DictionaryProfessionCache.cs" />
+    <Compile Include="Worlds\Generators\GalaxyGenerator.cs" />
+    <Compile Include="Worlds\Generators\GovernmentGenerator.cs" />
+    <Compile Include="Worlds\Generators\OrganizationGenerator.cs" />
+    <Compile Include="Entities\Profession.cs" />
+    <Compile Include="Worlds\Generators\ProfessionGenerator.cs" />
+    <Compile Include="Worlds\Professions\ProfessionScheduleEnum.cs" />
+    <Compile Include="Worlds\Territory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\CompanyNames.txt" />
+    <EmbeddedResource Include="Data\FemaleNames.txt" />
+    <EmbeddedResource Include="Data\GivenNames.txt" />
+    <EmbeddedResource Include="Data\MaleNames.txt" />
+    <EmbeddedResource Include="Data\Professions.txt" />
+    <EmbeddedResource Include="Data\Surnames.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\CountryNames.txt" />
+    <EmbeddedResource Include="Data\PlanetNames.txt" />
+    <EmbeddedResource Include="Data\StationNames.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

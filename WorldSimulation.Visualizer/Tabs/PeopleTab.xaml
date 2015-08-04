@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="WorldSimulation.Visualizer.Tabs.PeopleTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="People" Grid.Row="0" Grid.Column="0">
+            <!-- People Viewer -->
+            <DockPanel>
+                <!-- People Selector -->
+                <Grid DockPanel.Dock="Bottom" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Data Entry/From: -->
+                    <Label Content="From:" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"/>
+
+                    <!-- Data Entry/To: -->
+                    <Label Content="To:" Grid.Row="0" Grid.Column="2"/>
+                    <TextBox Grid.Row="0" Grid.Column="3"/>
+
+                    <!-- Fetch people from/to -->
+                    <Button Content="Fetch" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,5,0,0"/>
+                </Grid>
+
+                <ListBox DockPanel.Dock="Top"/>
+            </DockPanel>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

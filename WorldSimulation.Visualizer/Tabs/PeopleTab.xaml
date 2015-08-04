@@ -2,9 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:visualization="clr-namespace:ShoNS.Visualization;assembly=ShoViz"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -14,6 +15,37 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.Row="0"
+              Grid.Column="1"
+              Name="DetailsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/> <!-- Attributes/Details -->
+                <RowDefinition Height="1.5*"/> <!-- Life Facts/Personality Graph -->
+                <RowDefinition Height="*"/> <!-- Fate -->
+                <RowDefinition Height="*"/> <!-- History -->
+            </Grid.RowDefinitions>
+            
+            <!-- Personality Graph -->
+            <Grid Name="PersonalityGrid" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!-- Details -->
+                <Grid>
+                    
+                </Grid>
+                
+                <!-- Graph -->
+            </Grid>
+            
+            <!-- History -->
+            <TextBlock Grid.Row="3"/>
+            
+            
+        </Grid>
+        
+        
         <GroupBox Header="People" Grid.Row="0" Grid.Column="0">
             <!-- People Viewer -->
             <DockPanel>

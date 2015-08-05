@@ -125,7 +125,7 @@ namespace WorldSimulation.People
                 }
             }
 
-            if (person._fate._valleys.Max() == (_timeline.CurrentDate - person.BirthDate).Days/30)
+            if (person.Fate._valleys.Max() == (_timeline.CurrentDate - person.BirthDate).Days/30)
             {
                 // ded on last valley
                 person.DeathDate = _timeline.CurrentDate;

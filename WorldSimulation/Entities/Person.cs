@@ -18,14 +18,18 @@ namespace WorldSimulation.Entities
         public IList<Person> Children { get; set; }
         public Population Population { get; set; }
         public Territory Location { get; set; }
+        public Personality Personality { get; set; }
 
         public bool Deceased
         {
             get { return DeathDate != null; }
         }
 
+        public Fate Fate { get; set; }
+
         public Person[] Parents { get; set; }
-        
+
+        public string Name { get { return string.Format("{0} {1}", FirstName, FamilyName); } }
 
         public string FirstName
         {
@@ -62,11 +66,6 @@ namespace WorldSimulation.Entities
                    + " " + _lastNames[0];
         }
 
-        public string GetFullName()
-        {
-            return FirstName + " " + FamilyName;
-        }
-
         public PersonalHistory History { get { return _history; } }
 
         private readonly IList<string> _firstNames
@@ -77,15 +76,10 @@ namespace WorldSimulation.Entities
 
         private readonly PersonalHistory _history;
 
-
-        public readonly Fate _fate;
-
-        public Person(double seed)
+        public Person()
         {
             Children = new List<Person>();
             _history = new PersonalHistory(this);
-            _fate = new Fate(seed, this);
-            _fate.CalculateLifeline();
         }
 
         public void Log(string message, params object[] arguments)
@@ -103,7 +97,7 @@ namespace WorldSimulation.Entities
 
         public bool IsMajorEventDate(int months)
         {
-            return _fate.IsPeakDay(months);
+            return Fate.IsPeakDay(months);
         }
     }
 }

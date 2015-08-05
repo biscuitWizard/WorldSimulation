@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:visualization="clr-namespace:ShoNS.Visualization;assembly=ShoViz"
+             xmlns:controls="clr-namespace:WorldSimulation.Visualizer.Interface.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
     <Grid>
@@ -19,30 +20,43 @@
               Grid.Column="1"
               Name="DetailsGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/> <!-- Attributes/Details -->
-                <RowDefinition Height="1.5*"/> <!-- Life Facts/Personality Graph -->
-                <RowDefinition Height="*"/> <!-- Fate -->
-                <RowDefinition Height="*"/> <!-- History -->
+                <RowDefinition Height="1.5*"/>
+                <!-- Attributes/Details -->
+                <RowDefinition Height="*"/>
+                <!-- Fate -->
+                <RowDefinition Height="*"/>
+                <!-- History -->
             </Grid.RowDefinitions>
-            
+
             <!-- Personality Graph -->
-            <Grid Name="PersonalityGrid" Grid.Row="1">
+            <Grid Name="PersonalityGrid" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!-- Details -->
-                <Grid>
-                    
-                </Grid>
-                
+                <controls:BasicPersonInfoPanel x:Name="InfoPanel" Grid.Row="0" Grid.Column="0"/>
+
                 <!-- Graph -->
+                <GroupBox Header="Personality Graph"
+                          Name="PersonalityGroupBox"
+                          Grid.Column="1">
+                    
+                </GroupBox>
             </Grid>
             
             <!-- History -->
-            <TextBlock Grid.Row="3"/>
+            <GroupBox Header="History" Grid.Row="1">
+                <ScrollViewer>
+                    <TextBlock Name="HistoryBlock"/>
+                </ScrollViewer>
+            </GroupBox>
             
-            
+            <GroupBox Header="Fate Graph"
+                      Name="FateGroupBox"
+                      Grid.Row="2">
+                
+            </GroupBox>
         </Grid>
         
         
@@ -74,9 +88,8 @@
                     <Button Content="Fetch" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,5,0,0"/>
                 </Grid>
 
-                <ListBox DockPanel.Dock="Top"/>
+                <ListBox Name="ListBoxPeople" DockPanel.Dock="Top" DisplayMemberPath="Name" SelectionChanged="ListBoxPeople_SelectionChanged"/>
             </DockPanel>
         </GroupBox>
-
     </Grid>
 </UserControl>

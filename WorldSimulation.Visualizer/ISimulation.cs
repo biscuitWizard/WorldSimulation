@@ -2,7 +2,7 @@
 {
     public interface ISimulation
     {
-        void SetupSimulation();
+        void SetupSimulation(SimulationParameters simulationParameters);
         void Simulate(int years);
     }
 }

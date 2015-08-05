@@ -15,6 +15,8 @@ namespace WorldSimulation.Visualizer.Simulations
 {
     public class BasicSimulation : ISimulation
     {
+        public IPersonCache PersonCache { get { return _personCache; } }
+
         private readonly Random _random;
 
         // Caches
@@ -36,7 +38,7 @@ namespace WorldSimulation.Visualizer.Simulations
             _random = random ?? new Random();
         }
 
-        public void SetupSimulation()
+        public void SetupSimulation(SimulationParameters simulationParameters)
         {
             _personCache = new DictionaryPersonCache();
             _professionCache = new DictionaryProfessionCache();

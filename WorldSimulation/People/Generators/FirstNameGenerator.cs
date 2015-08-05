@@ -43,7 +43,7 @@ namespace WorldSimulation.People.Generators
 
         public Person Build(Person person)
         {
-            string fname = "";
+            var fname = "";
             if (person.Gender == "Female")
                 fname = _femaleNames
                     .OrderBy(name => Guid.NewGuid())
@@ -55,7 +55,7 @@ namespace WorldSimulation.People.Generators
                     .First()
                     .ToLower();
             person.FirstName = char.ToUpper(fname[0])
-                               + fname.Substring(1);
+                               + fname.Substring(1).Trim('\n','\r','\n');
 
             return person;
         }

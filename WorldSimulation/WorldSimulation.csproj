@@ -48,6 +48,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpNoise, Version=0.10.0.33666, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpNoise.0.10.0.0\lib\net45\SharpNoise.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpNoise.Utilities, Version=0.10.0.33666, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpNoise.0.10.0.0\lib\net45\SharpNoise.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -100,7 +108,7 @@
     <Compile Include="People\LifeEvents\Professions\Research\BeginResearchLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\Research\CompleteResearchLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\Research\ContributeResearchLifeEvent.cs" />
-    <Compile Include="PerlinNoise1D.cs" />
+    <Compile Include="People\Personality.cs" />
     <Compile Include="Caches\IPersonCache.cs" />
     <Compile Include="Caches\People\DictionaryPersonCache.cs" />
     <Compile Include="Caches\People\RedisPersonCache.cs" />

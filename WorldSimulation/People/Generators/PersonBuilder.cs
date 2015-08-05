@@ -28,12 +28,13 @@ namespace WorldSimulation.People.Generators
 
         public Person Build(Person father = null, Person mother = null)
         {
-            var person = new Person(_random.NextDouble())
+            var person = new Person
             {
                 Age = 0,
                 Sex = _random.NextDouble() > 0.5
                     ? "Female"
-                    : "Male"
+                    : "Male",
+                Fate = new Fate(_random.Next())
             };
 
             person.Gender = person.Sex;
@@ -53,6 +54,12 @@ namespace WorldSimulation.People.Generators
             // Transgender?
             if (0.063474382 > _random.NextDouble())
                 person.AddFlag("Transgender");
+
+            // Generate Personality
+            person.Personality = Personality.CreateRandom(_random);
+
+            // Generate Fate
+            person.Fate.CalculateLifeline();
 
             return person;
         }

@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+            <Button Name="ButtonStartSimulation" Content="Start Simulation" Click="ButtonStartSimulation_Click"/>
     </Grid>
 </UserControl>

@@ -21,7 +21,7 @@ namespace WorldSimulation.Visualizer
         /// </summary>
         public void Initialize()
         {
-            _simulation.SetupSimulation();
+            _simulation.SetupSimulation(new SimulationParameters());
         }
 
         /// <summary>
@@ -39,7 +39,10 @@ namespace WorldSimulation.Visualizer
             var simulation = new BasicSimulation(random);
             var program = new Program(simulation);
             program.Initialize();
-            program.Run(new MainWindow());
+            program.Run(new MainWindow
+            {
+                Simulation = simulation
+            });
         }
     }
 }

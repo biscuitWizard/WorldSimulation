@@ -17,8 +17,8 @@ namespace WorldSimulation.People.LifeEvents.Relations
 
         public bool Try(Person person)
         {
-            person.Log("Broke up with {0}", person.Partner.GetFullName());
-            person.Partner.Log("Broke up with {0}", person.GetFullName());
+            person.Log("Broke up with {0}", person.Partner.Name);
+            person.Partner.Log("Broke up with {0}", person.Name);
             person.Partner.History.Divorces.Add(person);
             person.Partner.Partner = null;
             person.History.Divorces.Add(person.Partner);

@@ -100,6 +100,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\Controls\BasicPersonInfoPanel.xaml.cs">
+      <DependentUpon>BasicPersonInfoPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SimulationParameters.cs" />
     <Compile Include="Simulations\BasicSimulation.cs" />
     <Compile Include="ISimulation.cs" />
     <Compile Include="Program.cs" />
@@ -118,6 +122,10 @@
     <Compile Include="Interface\Tabs\TerritoriesTab.xaml.cs">
       <DependentUpon>TerritoriesTab.xaml</DependentUpon>
     </Compile>
+    <Page Include="Interface\Controls\BasicPersonInfoPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interface\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -180,6 +188,7 @@
       <Name>WorldSimulation</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

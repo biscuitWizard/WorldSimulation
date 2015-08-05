@@ -52,5 +52,10 @@ namespace WorldSimulation
 
             return flag != null && flag.Value == expectedValue;
         }
+
+        public Flag[] GetFlags()
+        {
+            return _flags.ToArray();
+        }
     }
 }

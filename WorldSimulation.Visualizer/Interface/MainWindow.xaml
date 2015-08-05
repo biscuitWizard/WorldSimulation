@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tabs="clr-namespace:WorldSimulation.Visualizer.Interface.Tabs"
         x:Class="WorldSimulation.Visualizer.Interface.MainWindow"
-        Title="World Simulation Visualizer" Height="768" Width="1024">
+        Title="World Simulation Visualizer" Height="768" Width="1024" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height ="Auto"/>
@@ -19,10 +19,10 @@
         
         <TabControl Grid.Row="1">
             <TabItem Header="Simulation Control">
-                <tabs:SimulationTab/>
+                <tabs:SimulationTab x:Name="SimulationTab" SimulationComplete="SimulationTab_OnSimulationComplete"/>
             </TabItem>
             <TabItem Header="People">
-                <tabs:PeopleTab/>
+                <tabs:PeopleTab x:Name="PeopleTab"/>
             </TabItem>
             <TabItem Header="Territories">
                 <tabs:TerritoriesTab/>

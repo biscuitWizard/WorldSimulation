@@ -38,8 +38,7 @@ namespace WorldSimulation.People.Generators
                 fname = person.Parents[0].FamilyName;
             }
             person.FamilyName = char.ToUpper(fname[0])
-                                + fname.Substring(1);
-
+                                + fname.Substring(1).Trim('\r', '\n');
             return person;
         }
     }

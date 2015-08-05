@@ -42,7 +42,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             person.ClearFlag(RomanticFlags.DatingFlag);
             person.Partner.ClearFlag(RomanticFlags.DatingFlag);
 
-            person.Population.SaveChanges(person.Partner);
+            person.PopulationModule.SaveChanges(person.Partner);
 
             return true;
         }

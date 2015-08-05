@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
+using WorldSimulation.Entities;
 using WorldSimulation.Flags;
 
 namespace WorldSimulation
@@ -7,11 +10,11 @@ namespace WorldSimulation
     public abstract class DataEntity
     {
         public ulong? Id { get; set; }
-        private readonly IList<Flag> _flags = new List<Flag>();
+        private readonly IDictionary<Flag, DateTime> _flags = new Dictionary<Flag, DateTime>();
 
         public void AddFlag(Flag flag)
         {
-            _flags.Add(flag);
+            _flags.Add(flag, Universe.CurrentUniverse.CurrentTime);
         }
 
         public bool HasFlag(Flag flag)
@@ -21,17 +24,17 @@ namespace WorldSimulation
 
         public Flag[] GetFlags(FlagCategory category)
         {
-            return _flags.Where(f => f.Category.Equals(category)).ToArray();
+            return _flags.Keys.Where(f => f.Category.Equals(category)).ToArray();
         }
 
         public Flag[] GetFlags()
         {
-            return _flags.ToArray();
+            return _flags.Keys.ToArray();
         }
 
         public void ClearFlags(FlagCategory category)
         {
-            var flags = _flags.Where(f => f.Category.Equals(category)).ToArray();
+            var flags = _flags.Where(f => f.Key.Category.Equals(category)).ToArray();
             foreach (var flag in flags)
             {
                 _flags.Remove(flag);
@@ -41,6 +44,11 @@ namespace WorldSimulation
         public void ClearFlag(Flag flag)
         {
             _flags.Remove(_flags.FirstOrDefault(f => f.Equals(flag)));
+        }
+
+        public DateTime GetFlagCreationTime(Flag flag)
+        {
+            return _flags.FirstOrDefault(f => f.Key.Equals(flag)).Value;
         }
     }
 }

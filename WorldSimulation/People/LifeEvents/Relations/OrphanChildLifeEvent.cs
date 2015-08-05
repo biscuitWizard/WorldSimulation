@@ -70,7 +70,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             }
             child.Parents = null;
             child.AddFlag(IdentityFlags.OrphanFlag);
-            child.Population.SaveChanges(child);
+            child.PopulationModule.SaveChanges(child);
 
             return true;
         }

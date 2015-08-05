@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using WorldSimulation.Entities;
 using WorldSimulation.Flags;
 using WorldSimulation.People.Generators;
 
-namespace WorldSimulation.People.LifeEvents
+namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
     public class GenderChangeLifeEvent : ILifeEvent
     {
@@ -12,7 +13,7 @@ namespace WorldSimulation.People.LifeEvents
 
         public GenderChangeLifeEvent(FirstNameGenerator firstNameGenerator)
         {
-            _firstNameGenerator = firstNameGenerator;
+            this._firstNameGenerator = firstNameGenerator;
         }
 
         public bool CanEncounter(Person person)
@@ -38,7 +39,7 @@ namespace WorldSimulation.People.LifeEvents
             person.Gender = person.Gender == "Female"
                 ? "Male"
                 : "Female";
-            person.FirstName = _firstNameGenerator.Build(person).FirstName;
+            person.FirstName = this._firstNameGenerator.Build(person).FirstName;
             person.Log(string.Format("Changed their name to {0} {1} and is now transistioning", person.FirstName,
                 person.FamilyName));
             person.AddFlag(IdentityFlags.TransitioningFlag);

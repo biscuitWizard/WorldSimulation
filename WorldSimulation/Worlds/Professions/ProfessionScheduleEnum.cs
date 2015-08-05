@@ -1,4 +1,4 @@
-﻿namespace WorldSimulation.World.Professions
+﻿namespace WorldSimulation.Worlds.Professions
 {
     public enum ProfessionScheduleEnum
     {

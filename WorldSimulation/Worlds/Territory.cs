@@ -4,7 +4,6 @@ using System.Linq;
 using WorldSimulation.Caches;
 using WorldSimulation.Entities;
 using WorldSimulation.People;
-using WorldSimulation.World.Professions;
 
 namespace WorldSimulation.Worlds
 {

@@ -1,4 +1,6 @@
-﻿using WorldSimulation.Flags;
+﻿using System;
+
+using WorldSimulation.Flags;
 
 namespace WorldSimulation
 {

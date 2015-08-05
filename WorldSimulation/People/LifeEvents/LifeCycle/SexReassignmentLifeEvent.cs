@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using WorldSimulation.Entities;
 using WorldSimulation.Flags;
 
-namespace WorldSimulation.People.LifeEvents
+namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
     public class SexReassignmentLifeEvent : ILifeEvent
     {

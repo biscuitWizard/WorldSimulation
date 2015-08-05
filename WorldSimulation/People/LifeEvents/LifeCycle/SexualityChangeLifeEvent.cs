@@ -1,4 +1,4 @@
-﻿namespace WorldSimulation.People.LifeEvents
+﻿namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
     internal class SexualityChangeLifeEvent
     {

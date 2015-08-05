@@ -4,59 +4,25 @@ using System.Linq;
 
 using WorldSimulation.Caches;
 using WorldSimulation.Entities;
-using WorldSimulation.People.Generators;
 using WorldSimulation.Worlds;
 
-namespace WorldSimulation.People
+namespace WorldSimulation.People.LifeCycles
 {
-    public class Population
+    public class PopulationLifeCycle : LifeCycleBase
     {
-        private readonly IList<ILifeEvent> _lifeEvents;
-        private readonly PersonBuilder _personBuilder;
         private readonly IPersonCache _personCache;
-        private readonly Random _random;
-        private readonly Timeline _timeline;
-        private readonly Territory _rootTerritory;
+        private readonly IList<ILifeEvent> _lifeEvents;
 
-        public Population(Timeline timeline,
-            IList<ILifeEvent> lifeEvents,
-            PersonBuilder personBuilder,
-            Territory rootTerritory,
-            IPersonCache personCache,
-            Random random)
+        public PopulationLifeCycle(IPersonCache personCache, IList<ILifeEvent> lifeEvents)
         {
-            _rootTerritory = rootTerritory;
-            _timeline = timeline;
-            _lifeEvents = lifeEvents;
-            _personBuilder = personBuilder;
             _personCache = personCache;
-            _random = random;
-
-            // Random location for start pop.
-            var territory = rootTerritory.GetLiveableTerritories();
-
-            for (var i = 0; i < 200; i++)
-            {
-                var person = _personBuilder.Build();
-                person.Population = this;
-                person.Location = territory.OrderBy(_ => Guid.NewGuid()).First();
-                personCache.Save(person);
-            }
-            timeline.MonthElapsed += Timeline_MonthElapsed;
+            _lifeEvents = lifeEvents;
         }
 
-        public Person CreatePerson(Person father, Person mother)
+        public override void UpdateTick()
         {
-            var child = _personBuilder.Build(father, mother);
-            child.Population = this;
-            child.Location = mother.Location;
+            base.UpdateTick();
 
-            child = _personCache.Save(child);
-            return child;
-        }
-
-        protected void Timeline_MonthElapsed(object timeline, EventArgs args)
-        {
             //Task.WaitAll(
             //    _personCache.ReadWhere(p => !p.Deceased)
             //    .Select(person => Task.Run(() => DoLifeCycle(person)))
@@ -67,9 +33,9 @@ namespace WorldSimulation.People
             }
         }
 
-        public void SaveChanges(Person person)
+        public void AddLifeEvent(ILifeEvent lifeEvent)
         {
-            _personCache.Save(person);
+            _lifeEvents.Add(lifeEvent);
         }
 
         protected void DoLifeCycle(ulong personId)
@@ -83,7 +49,7 @@ namespace WorldSimulation.People
             }
 
             // For the purposes of a simple simulation, only 0-1 life events can happen in a single tick.
-            if (person.IsMajorEventDate((_timeline.CurrentDate - person.BirthDate).Days/30))
+            if (person.IsMajorEventDate((Universe.CurrentUniverse.CurrentTime - person.BirthDate).Days / 30))
             {
                 var availableLifeEvents = _lifeEvents.Where(lifeEvent => lifeEvent.CanEncounter(person));
                 foreach (var lifeEvent in availableLifeEvents)
@@ -95,8 +61,8 @@ namespace WorldSimulation.People
                                 modifier => person.Personality.GetFacet(modifier.Item1).DominantPole == modifier.Item1)
                             .Sum(
                                 modifier =>
-                                    modifier.Item2*(Math.Abs(person.Personality.GetFacet(modifier.Item1).Value)/10));
-                    var roll = _random.Next(0, 100);
+                                    modifier.Item2 * (Math.Abs(person.Personality.GetFacet(modifier.Item1).Value) / 10));
+                    var roll = Universe.CurrentUniverse.RandomGenerator.Next(0, 100);
 
                     if (10 + baseScore + scoreModifier >= roll)
                     {
@@ -111,10 +77,10 @@ namespace WorldSimulation.People
                 }
             }
 
-            if (person.Fate._valleys.Max() == (_timeline.CurrentDate - person.BirthDate).Days/30)
+            if (person.Fate._valleys.Max() == (Universe.CurrentUniverse.CurrentTime - person.BirthDate).Days / 30)
             {
                 // ded on last valley
-                person.DeathDate = _timeline.CurrentDate;
+                person.DeathDate = Universe.CurrentUniverse.CurrentTime;
             }
 
             // Oh no, they're newly deceased.

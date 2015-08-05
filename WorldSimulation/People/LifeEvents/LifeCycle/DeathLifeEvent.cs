@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
     public class DeathLifeEvent : ILifeEvent
     {
-        private readonly Timeline _timeline;
-
-        public DeathLifeEvent(Timeline timeline)
-        {
-            _timeline = timeline;
-        }
-
         public bool CanEncounter(Person person)
         {
             return false;
@@ -34,7 +28,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
 
         public bool Encounter(Person person)
         {
-            person.DeathDate = _timeline.CurrentDate;
+            person.DeathDate = Universe.CurrentUniverse.CurrentTime;
 
             return true;
         }

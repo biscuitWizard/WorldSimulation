@@ -37,7 +37,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
                 person.ClearFlags(FlagCategory.Romantic);
                 mate.Partner = null;
                 person.Partner = null;
-                person.Population.SaveChanges(mate);
+                person.PopulationModule.SaveChanges(mate);
             }
 
             return true;

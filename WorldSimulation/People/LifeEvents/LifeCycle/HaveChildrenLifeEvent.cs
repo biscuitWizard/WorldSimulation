@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using WorldSimulation.Entities;
 using WorldSimulation.Flags;
 
@@ -9,14 +10,6 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
     public class HaveChildrenLifeEvent : ILifeEvent
     {
         private const float Chance = 0.66167569289f;
-        private readonly Random _random;
-        private readonly Timeline _timeline;
-
-        public HaveChildrenLifeEvent(Random random, Timeline timeline)
-        {
-            _random = random;
-            _timeline = timeline;
-        }
 
         /// <summary>
         /// Simple gate-keeping check to determine if it is even physically possible for this event
@@ -80,7 +73,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
 
         public bool Encounter(Person person)
         {
-            if ((Chance/(person.Children.Count*2)) < _random.NextDouble())
+            if ((Chance/(person.Children.Count*2)) < Universe.CurrentUniverse.RandomGenerator.NextDouble())
                 return false;
 
             var mate = person.Partner;
@@ -100,7 +93,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
                 mate = stranger;
             }
 
-            var child = person.Population.CreatePerson(person, mate);
+            var child = person.PopulationModule.CreatePerson(person, mate);
             person.Children.Add(child);
             mate.Children.Add(child);
             child.Parents = new Person[2];
@@ -109,10 +102,10 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             person.Log("I had a child with {0}.", mate.FirstName);
             mate.Log("I had a child with {0}", person.FirstName);
 
-            if (_random.NextDouble() < 0.12)
+            if (Universe.CurrentUniverse.RandomGenerator.NextDouble() < 0.12)
             {
                 person.Log("Passed away having a child.");
-                person.DeathDate = _timeline.CurrentDate;
+                person.DeathDate = Universe.CurrentUniverse.CurrentTime;
             }
 
             return true;

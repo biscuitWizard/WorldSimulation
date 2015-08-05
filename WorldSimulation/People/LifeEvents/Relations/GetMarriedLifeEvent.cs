@@ -41,7 +41,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
                 mate.ClearFlag(RomanticFlags.EngagedFlag);
             }
 
-            person.Population.SaveChanges(mate);
+            person.PopulationModule.SaveChanges(mate);
 
             return true;
         }

@@ -3,6 +3,6 @@
     public interface ISimulation
     {
         void SetupSimulation(SimulationParameters simulationParameters);
-        void Simulate(int years);
+        void Simulate(int ticks);
     }
 }

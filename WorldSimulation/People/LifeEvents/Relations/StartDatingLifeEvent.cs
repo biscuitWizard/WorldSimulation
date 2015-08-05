@@ -64,7 +64,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             potentialPartner.AddFlag(RomanticFlags.DatingFlag);
 
             person.Partner = potentialPartner;
-            person.Population.SaveChanges(potentialPartner);
+            person.PopulationModule.SaveChanges(potentialPartner);
 
             return true;
         }

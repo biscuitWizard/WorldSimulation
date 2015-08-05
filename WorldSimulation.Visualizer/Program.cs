@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows;
+
+using StructureMap;
+
 using WorldSimulation.Visualizer.Interface;
 using WorldSimulation.Visualizer.Simulations;
 
@@ -9,9 +12,11 @@ namespace WorldSimulation.Visualizer
     {
         private readonly ISimulation _simulation;
         private readonly Application _application;
+        private readonly IContainer _container;
 
-        protected Program(ISimulation simulation)
+        protected Program(IContainer container, ISimulation simulation)
         {
+            _container = container;
             _simulation = simulation;
             _application = new Application();
         }
@@ -22,6 +27,7 @@ namespace WorldSimulation.Visualizer
         public void Initialize()
         {
             _simulation.SetupSimulation(new SimulationParameters());
+            
         }
 
         /// <summary>
@@ -35,9 +41,9 @@ namespace WorldSimulation.Visualizer
         [STAThread]
         public static void Main(string[] args)
         {
-            var random = new Random();
-            var simulation = new BasicSimulation(random);
-            var program = new Program(simulation);
+            var container = IoC.Initialize();
+            var simulation = new BasicSimulation(container);
+            var program = new Program(container, simulation);
             program.Initialize();
             program.Run(new MainWindow
             {

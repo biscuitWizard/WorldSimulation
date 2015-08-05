@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using WorldSimulation.People;
 using WorldSimulation.Worlds;
 
@@ -8,7 +9,7 @@ namespace WorldSimulation.Entities
 {
     public class Person : DataEntity
     {
-        public int Age { get { return (int)(_timeline.CurrentDate - BirthDate).TotalDays / 365; } }
+        public int Age { get { return (int)(Universe.CurrentUniverse.CurrentTime - BirthDate).Days / 365; } }
         public string Sex { get; set; }
         public string Gender { get; set; }
         public Profession Profession { get; set; }
@@ -16,7 +17,7 @@ namespace WorldSimulation.Entities
         public DateTime BirthDate { get; set; }
         public Person Partner { get; set; }
         public IList<Person> Children { get; set; }
-        public Population Population { get; set; }
+        public PopulationModule PopulationModule { get; set; }
         public Territory Location { get; set; }
         public Personality Personality { get; set; }
 
@@ -75,11 +76,9 @@ namespace WorldSimulation.Entities
             = new List<string>();
 
         private readonly PersonalHistory _history;
-        private readonly Timeline _timeline;
 
-        public Person(Timeline timeline)
+        public Person()
         {
-            _timeline = timeline;
             Children = new List<Person>();
             _history = new PersonalHistory(this);
         }

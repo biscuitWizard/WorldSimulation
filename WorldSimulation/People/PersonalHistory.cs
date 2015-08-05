@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using WorldSimulation.Entities;
-using WorldSimulation.World.Professions;
 
 namespace WorldSimulation.People
 {

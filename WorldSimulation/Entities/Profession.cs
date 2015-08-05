@@ -1,4 +1,4 @@
-﻿using WorldSimulation.World.Professions;
+﻿using WorldSimulation.Worlds.Professions;
 
 namespace WorldSimulation.Entities
 {

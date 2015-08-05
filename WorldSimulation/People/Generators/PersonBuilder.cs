@@ -1,4 +1,5 @@
 ﻿using System;
+
 using WorldSimulation.Entities;
 using WorldSimulation.Flags;
 
@@ -9,14 +10,11 @@ namespace WorldSimulation.People.Generators
         private readonly FirstNameGenerator _firstNameGenerator;
         private readonly LastNameGenerator _lastNameGenerator;
         private readonly Random _random;
-        private readonly Timeline _timeline;
 
-        public PersonBuilder(Timeline timeline,
-            FirstNameGenerator firstNameGenerator,
+        public PersonBuilder(FirstNameGenerator firstNameGenerator,
             LastNameGenerator lastNameGenerator,
             Random random)
         {
-            _timeline = timeline;
             _firstNameGenerator = firstNameGenerator;
             _lastNameGenerator = lastNameGenerator;
             _random = random;
@@ -24,7 +22,7 @@ namespace WorldSimulation.People.Generators
 
         public Person Build(Person father = null, Person mother = null)
         {
-            var person = new Person(_timeline)
+            var person = new Person
             {
                 Sex = _random.NextDouble() > 0.5
                     ? "Female"
@@ -33,7 +31,7 @@ namespace WorldSimulation.People.Generators
             };
 
             person.Gender = person.Sex;
-            person.BirthDate = _timeline.CurrentDate;
+            person.BirthDate = Universe.CurrentUniverse.CurrentTime;
             person = _firstNameGenerator.Build(person);
 
             if (father != null

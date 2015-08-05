@@ -26,7 +26,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             mate.Partner = null;
             person.Partner = null;
 
-            person.Population.SaveChanges(mate);
+            person.PopulationModule.SaveChanges(mate);
 
             return true;
         }

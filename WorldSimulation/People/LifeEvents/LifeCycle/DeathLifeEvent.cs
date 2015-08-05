@@ -1,48 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
     public class DeathLifeEvent : ILifeEvent
     {
-        private readonly Random _random;
         private readonly Timeline _timeline;
 
-        public DeathLifeEvent(Random random,
-            Timeline timeline)
+        public DeathLifeEvent(Timeline timeline)
         {
-            _random = random;
             _timeline = timeline;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return false;
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            if (person.Age > 100)
-            {
-                return ChancesEnum.Common;
-            }
-            else if (person.Age > 80)
-            {
-                return ChancesEnum.Uncommon;
-            }
-            else if (person.Age > 60)
-            {
-                return ChancesEnum.Rare;
-            }
-            else if (person.Age > 30)
-            {
-                return ChancesEnum.VeryRare;
-            }
-
-            return ChancesEnum.Impossible;
+            return 0;
         }
 
-        public bool Try(Person person)
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new[]
+            {
+                Tuple.Create(FacetTypeEnum.EasyGoingOrCareless, FacetInfluenceEnum.Minor.ToScore()),
+                Tuple.Create(FacetTypeEnum.ConsistentOrCautious, FacetInfluenceEnum.Minor.ToScore()*-1)
+            };
+        }
+
+        public bool Encounter(Person person)
         {
             person.DeathDate = _timeline.CurrentDate;
 

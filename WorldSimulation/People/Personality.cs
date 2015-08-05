@@ -31,11 +31,11 @@ namespace WorldSimulation.People
         {
             var facets = new []
             {
-                new Facet("Openness To Experience", FacetTypes.InventiveOrCurious, FacetTypes.ConsistentOrCautious),
-                new Facet("Conscientiousness", FacetTypes.EfficientOrOrganized, FacetTypes.EasyGoingOrCareless),
-                new Facet("Extraversion", FacetTypes.FriendlyOrCompassionate, FacetTypes.SolitaryOrReserved),
-                new Facet("Agreeableness", FacetTypes.FriendlyOrCompassionate, FacetTypes.AnalyticalOrDetached),
-                new Facet("Neuroticism", FacetTypes.SensitiveOrNervous, FacetTypes.SecureOrConfident)
+                new Facet("Openness To Experience", FacetTypeEnum.InventiveOrCurious, FacetTypeEnum.ConsistentOrCautious),
+                new Facet("Conscientiousness", FacetTypeEnum.EfficientOrOrganized, FacetTypeEnum.EasyGoingOrCareless),
+                new Facet("Extraversion", FacetTypeEnum.FriendlyOrCompassionate, FacetTypeEnum.SolitaryOrReserved),
+                new Facet("Agreeableness", FacetTypeEnum.FriendlyOrCompassionate, FacetTypeEnum.AnalyticalOrDetached),
+                new Facet("Neuroticism", FacetTypeEnum.SensitiveOrNervous, FacetTypeEnum.SecureOrConfident)
             };
 
             return new Personality(facets);
@@ -50,17 +50,27 @@ namespace WorldSimulation.People
         {
             return _facets.First(f => f.Name.Equals(facetName)).Value;
         }
+
+        public FacetTypeEnum GetDominantFacetType(string facetName)
+        {
+            return _facets.First(f => f.Name.Equals(facetName)).DominantPole;
+        }
+
+        public Facet GetFacet(FacetTypeEnum derivativeTypeEnum)
+        {
+            return _facets.FirstOrDefault(facet => facet.AntiPole == derivativeTypeEnum || facet.Pole == derivativeTypeEnum);
+        }
     }
 
     public class Facet
     {
         public string Name { get; private set; }
-        public FacetTypes AntiPole { get; private set; }
-        public FacetTypes Pole { get; private set; }
-        public FacetTypes DominantPole { get; private set; }
+        public FacetTypeEnum AntiPole { get; private set; }
+        public FacetTypeEnum Pole { get; private set; }
+        public FacetTypeEnum DominantPole { get; private set; }
         public int Value { get; set; }
 
-        public Facet(string name, FacetTypes pole, FacetTypes antipole, int value = 0)
+        public Facet(string name, FacetTypeEnum pole, FacetTypeEnum antipole, int value = 0)
         {
             Name = name;
             Pole = pole;
@@ -69,7 +79,7 @@ namespace WorldSimulation.People
         }
     }
 
-    public enum FacetTypes
+    public enum FacetTypeEnum
     {
         InventiveOrCurious,
         ConsistentOrCautious,

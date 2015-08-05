@@ -14,11 +14,19 @@ namespace WorldSimulation.Caches
 
         public T Save(T entity)
         {
+            if (entity.Id.HasValue && _data.ContainsKey(entity.Id.Value))
+            {
+                // Modify and update
+                _data[entity.Id.Value] = entity;
+
+                return entity;
+            }
+
             if (!entity.Id.HasValue)
             {
                 entity.Id = GetNextAvailableId();
             }
-
+            
             _data.Add(entity.Id.Value, entity);
 
             return entity;

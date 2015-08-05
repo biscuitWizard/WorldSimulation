@@ -9,22 +9,22 @@ namespace WorldSimulation.People.LifeEvents.Professions
 {
     public class SwitchJobLifeEvent : ILifeEvent
     {
-        public ChancesEnum Chance
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public ChancesEnum CalculateChance(Person person)
-        {
-            return ChancesEnum.Uncommon;
-        }
-
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return false;
         }
 
-        public bool Try(Person person)
+        public float ScoreEncounter(Person enactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Encounter(Person person)
         {
             throw new NotImplementedException();
         }

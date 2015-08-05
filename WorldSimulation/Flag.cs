@@ -1,4 +1,6 @@
-﻿namespace WorldSimulation
+﻿using WorldSimulation.Flags;
+
+namespace WorldSimulation
 {
     /// <summary>
     /// A boolean flag to tell indicate something has happened to an entity.
@@ -20,10 +22,19 @@
         /// </value>
         public bool Value { get; set; }
 
-        protected Flag(string name, bool value)
+        /// <summary>
+        /// Gets or sets the category for the flag.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
+        public FlagCategory Category { get; set; }
+
+        protected Flag(string name, bool value, FlagCategory flagCategory)
         {
             Name = name;
             Value = value;
+            Category = flagCategory;
         }
 
         /// <summary>
@@ -32,9 +43,9 @@
         /// <param name="name">The name.</param>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns></returns>
-        public static Flag Create(string name, bool value)
+        public static Flag Create(string name, bool value, FlagCategory category = FlagCategory.None)
         {
-            return new Flag(name, value);
+            return new Flag(name, value, category);
         }
 
         /// <summary>
@@ -44,7 +55,7 @@
         /// <returns></returns>
         public static Flag Create(string name)
         {
-            return new Flag(name, true);
+            return new Flag(name, true, FlagCategory.None);
         }
     }
 }

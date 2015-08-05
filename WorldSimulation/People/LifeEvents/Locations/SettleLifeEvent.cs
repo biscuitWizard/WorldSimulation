@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
 using WorldSimulation.Worlds;
@@ -14,7 +15,6 @@ namespace WorldSimulation.People.LifeEvents.Locations
     {
         private readonly Random _random;
         private readonly Territory _rootTerritory;
-        private const ChancesEnum ChanceToMove = ChancesEnum.Uncommon;
 
         public SettleLifeEvent(Random random, Territory rootTerritory)
         {
@@ -22,7 +22,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
             _rootTerritory = rootTerritory;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return (person.Age > 16
                 || (person.HasFlag("Orphan") && person.Age > 12))
@@ -30,22 +30,23 @@ namespace WorldSimulation.People.LifeEvents.Locations
                 && person.Profession == null;
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Common;
+            return 0;
         }
 
-        public bool Try(Person person)
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            var finalTerritory = person.Location;
-            if (_random.SuccessfulChance(ChanceToMove))
-            {
-                finalTerritory = _rootTerritory.GetLiveableTerritories().First(t => t != finalTerritory);
-            }
+            return new Tuple<FacetTypeEnum, int>[0];
+        }
+
+        public bool Encounter(Person person)
+        {
+            var finalTerritory = _rootTerritory.GetLiveableTerritories().First(t => t != person.Location);
 
             person.AddFlag("Settled");
             finalTerritory.MovePerson(person);
-            person.Log("I have settled permanently at {0}", person.Location.Name);
+            person.Log("I have settled permanently at {0}.", person.Location.Name);
 
             return true;
         }

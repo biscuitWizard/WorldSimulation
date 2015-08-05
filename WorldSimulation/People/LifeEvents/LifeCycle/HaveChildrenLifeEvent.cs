@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.LifeEvents.LifeCycle
@@ -15,32 +17,96 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             _timeline = timeline;
         }
 
-        public bool IsAvailable(Person person)
+        /// <summary>
+        /// Simple gate-keeping check to determine if it is even physically possible for this event
+        /// to be triggered.
+        /// An example would be lighting a car on fire without a car. Without the car,
+        /// you couldn't light the fire on said car.
+        /// </summary>
+        /// <param name="person">The person.</param>
+        /// <returns>
+        /// Whether or not this encounter can be encountered.
+        /// </returns>
+        public bool CanEncounter(Person person)
         {
-            return person.Age >= 18
-                   && person.Partner != null
-                   && person.Partner.Sex != person.Sex
+            return person.Age >= 16
                    && person.Sex == "Female";
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
+        /// or Shadowrun)
+        /// This specific score provides situational-based modifiers.
+        /// </summary>
+        /// <param name="enactor">The enactor.</param>
+        /// <returns></returns>
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Common;
+            float score = 0;
+            if (enactor.Partner != null)
+            {
+                score += FacetInfluenceEnum.Minor.ToScore();
+            }
+
+            if (enactor.HasFlag("Dating"))
+            {
+                score += FacetInfluenceEnum.Minor.ToScore();
+            }
+            else if (enactor.HasFlag("Married"))
+            {
+                score += FacetInfluenceEnum.Moderate.ToScore();
+            }
+
+            return score;
         }
 
-        public bool Try(Person person)
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// This specific score takes in Facets and modifiers the base score
+        /// by the amount of that person's personality and the int modifier.
+        /// </summary>
+        /// <returns></returns>
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new []
+            {
+                Tuple.Create(FacetTypeEnum.FriendlyOrCompassionate, FacetInfluenceEnum.Minor.ToScore())
+            };
+        }
+
+        public bool Encounter(Person person)
         {
             if ((Chance/(person.Children.Count*2)) < _random.NextDouble())
                 return false;
 
-            var child = person.Population.CreatePerson(person, person.Partner);
+            var mate = person.Partner;
+
+            if (mate == null)
+            {
+                // We're having sex with a stranger!
+                var stranger =
+                    person.Location.GetPeopleWhere(p => p.Partner == null && !p.Equals(person)).FirstOrDefault();
+
+                if (stranger == null)
+                {
+                    // No one to have sex with.
+                    return false;
+                }
+
+                mate = stranger;
+            }
+
+            var child = person.Population.CreatePerson(person, mate);
             person.Children.Add(child);
-            person.Partner.Children.Add(child);
+            mate.Children.Add(child);
             child.Parents = new Person[2];
             child.Parents[0] = person;
-            child.Parents[1] = person.Partner;
-            person.Log("Had a child with {0}", person.Partner.FirstName);
-            person.Partner.Log("Had a child with {0}", person.FirstName);
+            child.Parents[1] = mate;
+            person.Log("I had a child with {0}.", mate.FirstName);
+            mate.Log("I had a child with {0}", person.FirstName);
 
             if (_random.NextDouble() < 0.12)
             {

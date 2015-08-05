@@ -1,21 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.LifeEvents
 {
     public class SexReassignmentLifeEvent : ILifeEvent
     {
-        public ChancesEnum CalculateChance(Person person)
+        public bool CanEncounter(Person person)
         {
-            return ChancesEnum.Uncommon;
+            return person.HasFlag("Transgender") 
+                && person.HasFlag("Transitioning");
         }
 
-        public bool IsAvailable(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return person.HasFlag("Transgender") && person.HasFlag("Transitioning");
+            throw new NotImplementedException();
         }
 
-        public bool Try(Person person)
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Encounter(Person person)
         {
             person.AddFlag("Transistioned");
             person.RemoveFlag("Transistioning");

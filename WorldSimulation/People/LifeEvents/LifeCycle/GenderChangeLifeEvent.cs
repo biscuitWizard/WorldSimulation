@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 using WorldSimulation.People.Generators;
 
@@ -13,7 +14,7 @@ namespace WorldSimulation.People.LifeEvents
             _firstNameGenerator = firstNameGenerator;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age >= 8
                    && person.HasFlag("Transgender")
@@ -21,12 +22,17 @@ namespace WorldSimulation.People.LifeEvents
                    && !person.HasFlag("Transistioning");
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Rare;
+            return 0;
         }
 
-        public bool Try(Person person)
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new Tuple<FacetTypeEnum, int>[0];
+        }
+
+        public bool Encounter(Person person)
         {
             person.Gender = person.Gender == "Female"
                 ? "Male"

@@ -108,13 +108,11 @@
     <Compile Include="People\LifeEvents\Professions\Research\BeginResearchLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\Research\CompleteResearchLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\Research\ContributeResearchLifeEvent.cs" />
-    <Compile Include="People\LifeEvents\Relations\BreakupLifeEvent.cs" />
-    <Compile Include="People\LifeEvents\Relations\GetEngagedLifeEvent.cs" />
-    <Compile Include="People\LifeEvents\Relations\StartDatingLifeEvent.cs" />
     <Compile Include="People\Personality.cs" />
     <Compile Include="Caches\IPersonCache.cs" />
     <Compile Include="Caches\People\DictionaryPersonCache.cs" />
     <Compile Include="Caches\People\RedisPersonCache.cs" />
+    <Compile Include="People\ChancesEnum.cs" />
     <Compile Include="People\Generators\FirstNameGenerator.cs" />
     <Compile Include="People\Generators\LastNameGenerator.cs" />
     <Compile Include="People\ILifeEvent.cs" />
@@ -127,7 +125,7 @@
     <Compile Include="People\LifeEvents\Locations\MoveLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Locations\SettleLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Relations\Social\NameChangeLifeEvent.cs" />
-    <Compile Include="People\LifeEvents\Relations\OrphanChildLifeEvent.cs" />
+    <Compile Include="People\LifeEvents\Relations\OrphanedLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\FiredLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\GetJobLifeEvent.cs" />
     <Compile Include="People\LifeEvents\Professions\SwitchJobLifeEvent.cs" />

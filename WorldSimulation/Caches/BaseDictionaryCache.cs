@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace WorldSimulation.Caches
 {
@@ -11,14 +12,38 @@ namespace WorldSimulation.Caches
         private readonly IDictionary<ulong, T> _data = new Dictionary<ulong, T>();
         private ulong _lastAssignedId;
         private readonly object _idLock = new object();
+        private readonly PropertyInfo[] _propertyInfo;
+
+        protected BaseDictionaryCache()
+        {
+            _propertyInfo =
+                typeof(T).GetProperties().Where(p => typeof(IEnumerable<T>).IsAssignableFrom(p.PropertyType)).ToArray();
+        }
 
         public T Save(T entity)
         {
+            // Save all constituents.
+            foreach (var property in _propertyInfo)
+            {
+                foreach (T constituent in (IEnumerable<T>)property.GetValue(entity))
+                {
+                    if (!_data.ContainsKey(constituent.Id.Value))
+                    {
+                        _data.Add(constituent.Id.Value, constituent);
+                    }
+                    else
+                    {
+                        // Save!
+                        _data[constituent.Id.Value] = constituent;
+                    }
+                }
+            }
+
             if (entity.Id.HasValue && _data.ContainsKey(entity.Id.Value))
             {
                 // Modify and update
                 _data[entity.Id.Value] = entity;
-
+                
                 return entity;
             }
 

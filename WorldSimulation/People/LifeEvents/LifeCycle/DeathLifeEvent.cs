@@ -15,7 +15,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             _timeline = timeline;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return false;
         }
@@ -42,7 +42,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             return ChancesEnum.Impossible;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             person.DeathDate = _timeline.CurrentDate;
 

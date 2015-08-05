@@ -10,12 +10,12 @@ namespace WorldSimulation.People.LifeEvents
             return ChancesEnum.Uncommon;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.HasFlag("Transgender") && person.HasFlag("Transitioning");
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             person.AddFlag("Transistioned");
             person.RemoveFlag("Transistioning");

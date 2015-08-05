@@ -22,7 +22,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
             _rootTerritory = rootTerritory;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return (person.Age > 16
                 || (person.HasFlag("Orphan") && person.Age > 12))
@@ -35,7 +35,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
             return ChancesEnum.Common;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             var finalTerritory = person.Location;
             if (_random.SuccessfulChance(ChanceToMove))

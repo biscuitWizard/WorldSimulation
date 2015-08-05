@@ -88,7 +88,7 @@ namespace WorldSimulation.People
             //// Life events for everyone!
             //var lifeEvents =
             //    _lifeEvents.Where(le => (int)le.Size + usedQuota < MaxLifeEventQuota)
-            //    .Where(le => le.IsAvailable(person))
+            //    .Where(le => le.CanEncounter(person))
             //    .Where(le => _random.SuccessfulChance(le.CalculateChance(person)))
             //    .ToList();
             //foreach (var lifeEvent in lifeEvents)
@@ -99,7 +99,7 @@ namespace WorldSimulation.People
             //        continue;
             //    }
 
-            //    var success = lifeEvent.Try(person);
+            //    var success = lifeEvent.Encounter(person);
             //    if (!success) continue;
 
             //    usedQuota += (int)lifeEvent.Size;
@@ -117,11 +117,11 @@ namespace WorldSimulation.People
             if (person.IsMajorEventDate((_timeline.CurrentDate - person.BirthDate).Days/30))
             {
                 var lifeEvent =
-                    _lifeEvents.Where(le => le.IsAvailable(person)).OrderBy(le => Guid.NewGuid()).FirstOrDefault();
+                    _lifeEvents.Where(le => le.CanEncounter(person)).OrderBy(le => Guid.NewGuid()).FirstOrDefault();
 
                 if (lifeEvent != null)
                 {
-                    lifeEvent.Try(person);
+                    lifeEvent.Encounter(person);
                 }
             }
 

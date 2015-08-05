@@ -19,12 +19,12 @@ namespace WorldSimulation.People.LifeEvents.Professions
             return ChancesEnum.Uncommon;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return false;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             throw new NotImplementedException();
         }

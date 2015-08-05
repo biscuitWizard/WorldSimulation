@@ -4,12 +4,12 @@ namespace WorldSimulation.People.LifeEvents.Professions
 {
     public class FiredLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Profession != null;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             person.Profession = null;
             person.Log("I got fired.");

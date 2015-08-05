@@ -5,17 +5,11 @@ namespace WorldSimulation.People.LifeEvents.Relations
 {
     public class HaveDivorceLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Partner != null;
         }
-
-        public ChancesEnum CalculateChance(Person person)
-        {
-            return ChancesEnum.Rare;
-        }
-
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             person.Log("Broke up with {0}", person.Partner.Name);
             person.Partner.Log("Broke up with {0}", person.Name);

@@ -6,13 +6,13 @@ namespace WorldSimulation.People.LifeEvents.Professions
 {
     public class GetJobLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Profession == null
                    && person.Age >= 16;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             var professions =
                 person.Location.GetAvailableProfessions().Where(p => p.DoesMeetRequirements(person)).ToList();

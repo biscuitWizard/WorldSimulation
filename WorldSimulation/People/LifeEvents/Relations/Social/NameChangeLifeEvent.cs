@@ -18,7 +18,7 @@ namespace WorldSimulation.People.LifeEvents
             _lastNameGenerator = lastNameGenerator;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age >= 18;
         }
@@ -28,7 +28,7 @@ namespace WorldSimulation.People.LifeEvents
             return ChancesEnum.UnbelievablyRare;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             if (.5 < _random.NextDouble())
                 _firstNameGenerator.Build(person);

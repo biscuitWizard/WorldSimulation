@@ -15,7 +15,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             _timeline = timeline;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age >= 18
                    && person.Partner != null
@@ -28,7 +28,7 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
             return ChancesEnum.Common;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             if ((Chance/(person.Children.Count*2)) < _random.NextDouble())
                 return false;

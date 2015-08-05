@@ -13,7 +13,7 @@ namespace WorldSimulation.People.LifeEvents
             _firstNameGenerator = firstNameGenerator;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age >= 8
                    && person.HasFlag("Transgender")
@@ -26,7 +26,7 @@ namespace WorldSimulation.People.LifeEvents
             return ChancesEnum.Rare;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             person.Gender = person.Gender == "Female"
                 ? "Male"

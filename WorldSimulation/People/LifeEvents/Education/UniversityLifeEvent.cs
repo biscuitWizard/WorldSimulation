@@ -5,12 +5,12 @@ namespace WorldSimulation.People.LifeEvents.Education
 {
     public class UniversityLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             throw new NotImplementedException();
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             throw new NotImplementedException();
         }

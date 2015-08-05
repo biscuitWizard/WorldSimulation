@@ -13,7 +13,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
             _availableTerritory = availableTerritory;
         }
 
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age > 16
                    && !person.HasFlag("Settled")
@@ -25,7 +25,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
             return ChancesEnum.Rare;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             var newTerritory = _availableTerritory.GetLiveableTerritories().First(t => t != person.Location);
             newTerritory.MovePerson(person);

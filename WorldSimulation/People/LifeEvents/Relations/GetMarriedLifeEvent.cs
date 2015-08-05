@@ -6,7 +6,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
 {
     public class GetMarriedLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
             return person.Age >= 16
                    && person.Partner == null;
@@ -17,7 +17,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             return ChancesEnum.Uncommon;
         }
 
-        public bool Try(Person person)
+        public bool Encounter(Person person)
         {
             var mate = FindMate(person.Population, person);
             if (mate == null)

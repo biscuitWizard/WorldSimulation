@@ -31,11 +31,11 @@ namespace WorldSimulation.People
         {
             var facets = new []
             {
-                new Facet("Openness To Experience", FacetTypes.InventiveOrCurious, FacetTypes.ConsistentOrCautious),
-                new Facet("Conscientiousness", FacetTypes.EfficientOrOrganized, FacetTypes.EasyGoingOrCareless),
-                new Facet("Extraversion", FacetTypes.FriendlyOrCompassionate, FacetTypes.SolitaryOrReserved),
-                new Facet("Agreeableness", FacetTypes.FriendlyOrCompassionate, FacetTypes.AnalyticalOrDetached),
-                new Facet("Neuroticism", FacetTypes.SensitiveOrNervous, FacetTypes.SecureOrConfident)
+                new Facet("Openness To Experience", FacetType.InventiveOrCurious, FacetType.ConsistentOrCautious),
+                new Facet("Conscientiousness", FacetType.EfficientOrOrganized, FacetType.EasyGoingOrCareless),
+                new Facet("Extraversion", FacetType.FriendlyOrCompassionate, FacetType.SolitaryOrReserved),
+                new Facet("Agreeableness", FacetType.FriendlyOrCompassionate, FacetType.AnalyticalOrDetached),
+                new Facet("Neuroticism", FacetType.SensitiveOrNervous, FacetType.SecureOrConfident)
             };
 
             return new Personality(facets);
@@ -55,12 +55,12 @@ namespace WorldSimulation.People
     public class Facet
     {
         public string Name { get; private set; }
-        public FacetTypes AntiPole { get; private set; }
-        public FacetTypes Pole { get; private set; }
-        public FacetTypes DominantPole { get; private set; }
+        public FacetType AntiPole { get; private set; }
+        public FacetType Pole { get; private set; }
+        public FacetType DominantPole { get; private set; }
         public int Value { get; set; }
 
-        public Facet(string name, FacetTypes pole, FacetTypes antipole, int value = 0)
+        public Facet(string name, FacetType pole, FacetType antipole, int value = 0)
         {
             Name = name;
             Pole = pole;
@@ -69,7 +69,7 @@ namespace WorldSimulation.People
         }
     }
 
-    public enum FacetTypes
+    public enum FacetType
     {
         InventiveOrCurious,
         ConsistentOrCautious,

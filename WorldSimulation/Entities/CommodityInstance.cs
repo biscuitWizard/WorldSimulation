@@ -1,6 +1,6 @@
 ﻿namespace WorldSimulation.Entities
 {
-    class CommodityInstance : DataEntity
+    public class CommodityInstance : DataEntity
     {
     }
 }

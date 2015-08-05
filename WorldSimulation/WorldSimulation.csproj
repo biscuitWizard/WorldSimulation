@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caches\BaseDictionaryCache.cs" />
+    <Compile Include="Caches\ICommodityCache.cs" />
     <Compile Include="Caches\IDataEntityCache.cs" />
     <Compile Include="Caches\IProfessionCache.cs" />
     <Compile Include="Caches\ITerritoryCache.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Flags\TravelFlags.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="ISimulationTime.cs" />
+    <Compile Include="Items\ItemModule.cs" />
     <Compile Include="MonthlySimulationTime.cs" />
     <Compile Include="People\LifeCycles\PopulationLifeCycle.cs" />
     <Compile Include="Worlds\ILifeCycle.cs" />

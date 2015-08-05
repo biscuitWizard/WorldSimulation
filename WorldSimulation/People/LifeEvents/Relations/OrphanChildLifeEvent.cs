@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
 
@@ -25,26 +26,40 @@ namespace WorldSimulation.People.LifeEvents.Relations
         }
 
         /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
+        /// or Shadowrun)
+        /// This specific score provides situational-based modifiers.
+        /// </summary>
+        /// <param name="enactor">The enactor.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        float ILifeEvent.ScoreEncounter(Person enactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// This specific score takes in Facets and modifiers the base score
+        /// by the amount of that person's personality and the int modifier.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Encounters the specified person.
         /// </summary>
         /// <param name="person">The person.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         public bool Encounter(Person person)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// Scoring an encounter takes various bits about a person and calculates a score
-        /// that will be used to determine whether or not this person will do this event.
-        /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
-        /// or Shadowrun)
-        /// </summary>
-        /// <param name="enactor">The enactor.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public IDictionary<FacetType, float> ScoreEncounter(Person enactor)
         {
             throw new System.NotImplementedException();
         }

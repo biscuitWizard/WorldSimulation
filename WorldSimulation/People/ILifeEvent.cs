@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People
@@ -22,10 +23,22 @@ namespace WorldSimulation.People
         /// 
         /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
         /// or Shadowrun)
+        /// 
+        /// This specific score provides situational-based modifiers.
         /// </summary>
         /// <param name="enactor">The enactor.</param>
         /// <returns></returns>
-        IDictionary<FacetType, float> ScoreEncounter(Person enactor); 
+        float ScoreEncounter(Person enactor);
+
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// 
+        /// This specific score takes in Facets and modifiers the base score
+        /// by the amount of that person's personality and the int modifier.
+        /// </summary>
+        /// <returns></returns>
+        IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter();
 
         bool Encounter(Person person);
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
 
@@ -10,6 +11,19 @@ namespace WorldSimulation.People.LifeEvents.Professions
         {
             return person.Profession == null
                    && person.Age >= 16;
+        }
+
+        public float ScoreEncounter(Person enactor)
+        {
+            return 0;
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new []
+            {
+                Tuple.Create(FacetTypeEnum.SecureOrConfident, FacetInfluenceEnum.Moderate.ToScore())
+            };
         }
 
         public bool Encounter(Person person)
@@ -24,11 +38,6 @@ namespace WorldSimulation.People.LifeEvents.Professions
             person.Profession = professions.OrderBy(_ => Guid.NewGuid()).First();
             person.Log("I just got a new job as a {0} at {1}!", person.Profession.Title, person.Profession.Company);
             return true;
-        }
-
-        public ChancesEnum CalculateChance(Person person)
-        {
-            return ChancesEnum.Common;
         }
     }
 }

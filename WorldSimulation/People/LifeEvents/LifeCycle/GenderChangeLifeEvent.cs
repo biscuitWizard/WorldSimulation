@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 using WorldSimulation.People.Generators;
 
@@ -21,9 +22,14 @@ namespace WorldSimulation.People.LifeEvents
                    && !person.HasFlag("Transistioning");
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Rare;
+            throw new NotImplementedException();
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
         }
 
         public bool Encounter(Person person)

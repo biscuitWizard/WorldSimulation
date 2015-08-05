@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
 
@@ -9,12 +10,18 @@ namespace WorldSimulation.People.LifeEvents.Relations
         public bool CanEncounter(Person person)
         {
             return person.Age >= 16
-                   && person.Partner == null;
+                   && person.Partner == null
+                   && (person.HasFlag("Engaged") || person.HasFlag("Dating"));
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Uncommon;
+            return 0;
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         public bool Encounter(Person person)
@@ -26,8 +33,22 @@ namespace WorldSimulation.People.LifeEvents.Relations
             // Mate them up!
             person.Partner = mate;
             mate.Partner = person;
-            person.Log("Hooked up with " + mate.FirstName);
-            mate.Log("Hooked up with " + person.FirstName);
+            person.Log("I married {0}.", mate.Name);
+            mate.Log("I married {0}. ", person.Name);
+            person.AddFlag("Married");
+            mate.AddFlag("Married");
+
+            if (person.HasFlag("Dating"))
+            {
+                person.RemoveFlag("Dating");
+                mate.RemoveFlag("Dating");
+            }
+
+            if (person.HasFlag("Engaged"))
+            {
+                person.RemoveFlag("Engaged");
+                mate.RemoveFlag("Engaged");
+            }
 
             return true;
         }

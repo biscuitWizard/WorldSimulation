@@ -25,7 +25,12 @@ namespace WorldSimulation.People.LifeEvents.Relations
                    && person.HasFlag("Dating");
         }
 
-        public IDictionary<FacetType, float> ScoreEncounter(Person enactor)
+        float ILifeEvent.ScoreEncounter(Person enactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
             throw new NotImplementedException();
         }

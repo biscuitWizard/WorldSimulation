@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.LifeEvents.LifeCycle
@@ -23,9 +24,14 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
                    && person.Sex == "Female";
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Common;
+            throw new NotImplementedException();
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
         }
 
         public bool Encounter(Person person)

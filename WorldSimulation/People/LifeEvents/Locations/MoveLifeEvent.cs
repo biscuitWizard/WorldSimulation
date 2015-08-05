@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using WorldSimulation.Entities;
 using WorldSimulation.Worlds;
 
@@ -20,11 +21,6 @@ namespace WorldSimulation.People.LifeEvents.Locations
                    && person.Profession == null;
         }
 
-        public ChancesEnum CalculateChance(Person person)
-        {
-            return ChancesEnum.Rare;
-        }
-
         public bool Encounter(Person person)
         {
             var newTerritory = _availableTerritory.GetLiveableTerritories().First(t => t != person.Location);
@@ -32,6 +28,20 @@ namespace WorldSimulation.People.LifeEvents.Locations
             person.Log("Has moved to a new home at {0}", newTerritory.Name);
 
             return true;
+        }
+
+
+        public float ScoreEncounter(Person enactor)
+        {
+            return 0;
+        }
+
+        public System.Collections.Generic.IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new[]
+            {
+                Tuple.Create(FacetTypeEnum.InventiveOrCurious, FacetInfluenceEnum.Minor.ToScore())
+            };
         }
     }
 }

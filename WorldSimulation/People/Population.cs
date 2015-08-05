@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using WorldSimulation.Caches;
 using WorldSimulation.Entities;
 using WorldSimulation.People.Generators;
@@ -83,45 +83,33 @@ namespace WorldSimulation.People
                 _playerLifeEventQuotas[person.Id.Value] = Tuple.Create(0, MaxLifeEventQuota);
             }
 
-            //var usedQuota = _playerLifeEventQuotas[person.Id.Value].Item1;
-
-            //// Life events for everyone!
-            //var lifeEvents =
-            //    _lifeEvents.Where(le => (int)le.Size + usedQuota < MaxLifeEventQuota)
-            //    .Where(le => le.CanEncounter(person))
-            //    .Where(le => _random.SuccessfulChance(le.CalculateChance(person)))
-            //    .ToList();
-            //foreach (var lifeEvent in lifeEvents)
-            //{
-            //    // Just in case this has changed.
-            //    if (usedQuota + (int) lifeEvent.Size > MaxLifeEventQuota)
-            //    {
-            //        continue;
-            //    }
-
-            //    var success = lifeEvent.Encounter(person);
-            //    if (!success) continue;
-
-            //    usedQuota += (int)lifeEvent.Size;
-            //    _playerLifeEventQuotas[person.Id.Value] = Tuple.Create(usedQuota, MaxLifeEventQuota);
-
-            //    // Oh no, they're newly deceased.
-            //    if (person.Deceased)
-            //    {
-            //        _personCache.MoveToGrave(person);
-            //        _playerLifeEventQuotas.Remove(person.Id.Value);
-            //        return;
-            //    }
-            //}
-
+           
+            // For the purposes of a simple simulation, only 0-1 life events can happen in a single tick.
             if (person.IsMajorEventDate((_timeline.CurrentDate - person.BirthDate).Days/30))
             {
-                var lifeEvent =
-                    _lifeEvents.Where(le => le.CanEncounter(person)).OrderBy(le => Guid.NewGuid()).FirstOrDefault();
-
-                if (lifeEvent != null)
+                var availableLifeEvents = _lifeEvents.Where(lifeEvent => lifeEvent.CanEncounter(person));
+                foreach (var lifeEvent in availableLifeEvents)
                 {
-                    lifeEvent.Encounter(person);
+                    var baseScore = lifeEvent.ScoreEncounter(person);
+                    var scoreModifier =
+                        lifeEvent.ScorePersonalityEncounter()
+                            .Where(
+                                modifier => person.Personality.GetFacet(modifier.Item1).DominantPole == modifier.Item1)
+                            .Sum(
+                                modifier =>
+                                    modifier.Item2*(Math.Abs(person.Personality.GetFacet(modifier.Item1).Value)/10));
+                    var roll = _random.Next(0, 100);
+
+                    if (10 + baseScore + scoreModifier >= roll)
+                    {
+                        // Success!
+                        var eventSuccess = lifeEvent.Encounter(person);
+
+                        if (eventSuccess)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -136,7 +124,6 @@ namespace WorldSimulation.People
             {
                 _personCache.MoveToGrave(person);
                 _playerLifeEventQuotas.Remove(person.Id.Value);
-                return;
             }
         }
     }

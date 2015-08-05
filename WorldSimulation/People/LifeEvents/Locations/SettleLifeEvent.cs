@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
 using WorldSimulation.Worlds;
@@ -14,7 +15,6 @@ namespace WorldSimulation.People.LifeEvents.Locations
     {
         private readonly Random _random;
         private readonly Territory _rootTerritory;
-        private const ChancesEnum ChanceToMove = ChancesEnum.Uncommon;
 
         public SettleLifeEvent(Random random, Territory rootTerritory)
         {
@@ -30,9 +30,14 @@ namespace WorldSimulation.People.LifeEvents.Locations
                 && person.Profession == null;
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Common;
+            throw new NotImplementedException();
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            throw new NotImplementedException();
         }
 
         public bool Encounter(Person person)

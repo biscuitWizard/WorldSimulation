@@ -33,7 +33,12 @@ namespace WorldSimulation.People.LifeEvents.Relations
                    && person.Location.GetPeopleWhere(p => ValidPartner(person, p)).Any();
         }
 
-        public IDictionary<FacetType, float> ScoreEncounter(Person enactor)
+        public float ScoreEncounter(Person enactor)
+        {
+            return 0;
+        }
+
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
             throw new NotImplementedException();
         }

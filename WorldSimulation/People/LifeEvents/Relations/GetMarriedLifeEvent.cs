@@ -1,23 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
     public class GetMarriedLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
-            return person.Age >= 16
-                   && person.Partner == null;
+            return person.Partner != null
+                   && person.Partner.HasFlag(RomanticFlags.EngagedFlag)
+                   && person.HasFlag(RomanticFlags.EngagedFlag);
         }
 
-        public ChancesEnum CalculateChance(Person person)
+        public float ScoreEncounter(Person enactor)
         {
-            return ChancesEnum.Uncommon;
+            return 0;
         }
 
-        public bool Try(Person person)
+        public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new Tuple<FacetTypeEnum, int>[0];
+        }
+
+        public bool Encounter(Person person)
         {
             var mate = FindMate(person.Population, person);
             if (mate == null)
@@ -26,8 +34,16 @@ namespace WorldSimulation.People.LifeEvents.Relations
             // Mate them up!
             person.Partner = mate;
             mate.Partner = person;
-            person.Log("Hooked up with " + mate.FirstName);
-            mate.Log("Hooked up with " + person.FirstName);
+            person.Log("I married {0}.", mate.Name);
+            mate.Log("I married {0}. ", person.Name);
+            person.AddFlag(RomanticFlags.MarriedFlag);
+            mate.AddFlag(RomanticFlags.MarriedFlag);
+
+            if (person.HasFlag(RomanticFlags.EngagedFlag))
+            {
+                person.RemoveFlag(RomanticFlags.EngagedFlag);
+                mate.RemoveFlag(RomanticFlags.EngagedFlag);
+            }
 
             return true;
         }

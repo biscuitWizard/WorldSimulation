@@ -3,7 +3,7 @@ using WorldSimulation.Entities;
 
 namespace WorldSimulation.People.Generators
 {
-    public class PersonBuilder : IPersonBuilder
+    public class PersonBuilder
     {
         private readonly FirstNameGenerator _firstNameGenerator;
         private readonly LastNameGenerator _lastNameGenerator;
@@ -21,16 +21,10 @@ namespace WorldSimulation.People.Generators
             _random = random;
         }
 
-        public Person Build(Person person)
-        {
-            return Build(null, null);
-        }
-
         public Person Build(Person father = null, Person mother = null)
         {
-            var person = new Person
+            var person = new Person(_timeline)
             {
-                Age = 0,
                 Sex = _random.NextDouble() > 0.5
                     ? "Female"
                     : "Male",

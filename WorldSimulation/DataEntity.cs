@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation
 {
@@ -41,6 +42,18 @@ namespace WorldSimulation
             _flags.Remove(flag);
         }
 
+        public void RemoveFlag(Flag flag)
+        {
+            var flagToRemove = _flags.FirstOrDefault(f => f.Equals(flag));
+
+            if (flagToRemove == null)
+            {
+                throw new InvalidOperationException("Unable to locate flag");
+            }
+
+            _flags.Remove(flagToRemove);
+        }
+
         private Flag GetFlag(string name)
         {
             return _flags.FirstOrDefault(f => f.Name.EqualsIgnoreCase(name));
@@ -53,9 +66,23 @@ namespace WorldSimulation
             return flag != null && flag.Value == expectedValue;
         }
 
+        public bool HasFlag(Flag flag)
+        {
+            return _flags.Any(f => f.Equals(flag));
+        }
+
         public Flag[] GetFlags()
         {
             return _flags.ToArray();
+        }
+
+        public void ClearFlags(FlagCategory category)
+        {
+            var flags = _flags.Where(f => f.Category.Equals(category)).ToArray();
+            foreach (var flag in flags)
+            {
+                _flags.Remove(flag);
+            }
         }
     }
 }

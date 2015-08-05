@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using WorldSimulation.Caches;
 using WorldSimulation.Entities;
 using WorldSimulation.People.Generators;
@@ -11,17 +11,12 @@ namespace WorldSimulation.People
 {
     public class Population
     {
-        private const int MaxLifeEventQuota = 120;
-
         private readonly IList<ILifeEvent> _lifeEvents;
         private readonly PersonBuilder _personBuilder;
         private readonly IPersonCache _personCache;
         private readonly Random _random;
         private readonly Timeline _timeline;
         private readonly Territory _rootTerritory;
-
-        private readonly IDictionary<ulong, Tuple<int, int>> _playerLifeEventQuotas
-            = new Dictionary<ulong, Tuple<int, int>>();
 
         public Population(Timeline timeline,
             IList<ILifeEvent> lifeEvents,
@@ -38,15 +33,14 @@ namespace WorldSimulation.People
             _random = random;
 
             // Random location for start pop.
-            var territory = rootTerritory.GetLiveableTerritories().First();
+            var territory = rootTerritory.GetLiveableTerritories();
 
-            for (var i = 0; i < 24; i++)
+            for (var i = 0; i < 200; i++)
             {
-                var person = _personBuilder.Build(null, null);
+                var person = _personBuilder.Build();
                 person.Population = this;
-                person.Location = territory;
-                person = personCache.Save(person);
-                _playerLifeEventQuotas.Add(person.Id.Value, Tuple.Create(0, MaxLifeEventQuota));
+                person.Location = territory.OrderBy(_ => Guid.NewGuid()).First();
+                personCache.Save(person);
             }
             timeline.MonthElapsed += Timeline_MonthElapsed;
         }
@@ -58,7 +52,6 @@ namespace WorldSimulation.People
             child.Location = mother.Location;
 
             child = _personCache.Save(child);
-            _playerLifeEventQuotas.Add(child.Id.Value, Tuple.Create(0, MaxLifeEventQuota));
             return child;
         }
 
@@ -68,60 +61,48 @@ namespace WorldSimulation.People
             //    _personCache.ReadWhere(p => !p.Deceased)
             //    .Select(person => Task.Run(() => DoLifeCycle(person)))
             //    .ToArray());
-            foreach (var person in _personCache.ReadWhere(p => !p.Deceased))
+            foreach (var person in _personCache.ReadWhere(p => !p.Deceased).Select(p => p.Id.Value))
             {
                 DoLifeCycle(person);
             }
         }
 
-        protected void DoLifeCycle(Person person)
+        protected void DoLifeCycle(ulong personId)
         {
-            if (person.BirthDate.Month == _timeline.Month)
+            var person = _personCache.Read(personId);
+
+            if (person.Deceased)
             {
-                // Happy birthday!
-                person.Age++;
-                _playerLifeEventQuotas[person.Id.Value] = Tuple.Create(0, MaxLifeEventQuota);
+                // Just check for expired data.
+                return;
             }
 
-            //var usedQuota = _playerLifeEventQuotas[person.Id.Value].Item1;
-
-            //// Life events for everyone!
-            //var lifeEvents =
-            //    _lifeEvents.Where(le => (int)le.Size + usedQuota < MaxLifeEventQuota)
-            //    .Where(le => le.IsAvailable(person))
-            //    .Where(le => _random.SuccessfulChance(le.CalculateChance(person)))
-            //    .ToList();
-            //foreach (var lifeEvent in lifeEvents)
-            //{
-            //    // Just in case this has changed.
-            //    if (usedQuota + (int) lifeEvent.Size > MaxLifeEventQuota)
-            //    {
-            //        continue;
-            //    }
-
-            //    var success = lifeEvent.Try(person);
-            //    if (!success) continue;
-
-            //    usedQuota += (int)lifeEvent.Size;
-            //    _playerLifeEventQuotas[person.Id.Value] = Tuple.Create(usedQuota, MaxLifeEventQuota);
-
-            //    // Oh no, they're newly deceased.
-            //    if (person.Deceased)
-            //    {
-            //        _personCache.MoveToGrave(person);
-            //        _playerLifeEventQuotas.Remove(person.Id.Value);
-            //        return;
-            //    }
-            //}
-
+            // For the purposes of a simple simulation, only 0-1 life events can happen in a single tick.
             if (person.IsMajorEventDate((_timeline.CurrentDate - person.BirthDate).Days/30))
             {
-                var lifeEvent =
-                    _lifeEvents.Where(le => le.IsAvailable(person)).OrderBy(le => Guid.NewGuid()).FirstOrDefault();
-
-                if (lifeEvent != null)
+                var availableLifeEvents = _lifeEvents.Where(lifeEvent => lifeEvent.CanEncounter(person));
+                foreach (var lifeEvent in availableLifeEvents)
                 {
-                    lifeEvent.Try(person);
+                    var baseScore = lifeEvent.ScoreEncounter(person);
+                    var scoreModifier =
+                        lifeEvent.ScorePersonalityEncounter()
+                            .Where(
+                                modifier => person.Personality.GetFacet(modifier.Item1).DominantPole == modifier.Item1)
+                            .Sum(
+                                modifier =>
+                                    modifier.Item2*(Math.Abs(person.Personality.GetFacet(modifier.Item1).Value)/10));
+                    var roll = _random.Next(0, 100);
+
+                    if (10 + baseScore + scoreModifier >= roll)
+                    {
+                        // Success!
+                        var eventSuccess = lifeEvent.Encounter(person);
+
+                        if (eventSuccess)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -135,8 +116,10 @@ namespace WorldSimulation.People
             if (person.Deceased)
             {
                 _personCache.MoveToGrave(person);
-                _playerLifeEventQuotas.Remove(person.Id.Value);
-                return;
+            }
+            else
+            {
+                _personCache.Save(person);
             }
         }
     }

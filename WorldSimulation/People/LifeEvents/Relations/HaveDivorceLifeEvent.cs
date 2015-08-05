@@ -1,30 +1,65 @@
 ﻿using System;
+using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
     public class HaveDivorceLifeEvent : ILifeEvent
     {
-        public bool IsAvailable(Person person)
+        public bool CanEncounter(Person person)
         {
-            return person.Partner != null;
+            return person.Partner != null
+                && person.HasFlag(RomanticFlags.MarriedFlag)
+                && person.Partner.HasFlag(RomanticFlags.MarriedFlag);
         }
-
-        public ChancesEnum CalculateChance(Person person)
+        public bool Encounter(Person person)
         {
-            return ChancesEnum.Rare;
-        }
-
-        public bool Try(Person person)
-        {
-            person.Log("Broke up with {0}", person.Partner.Name);
-            person.Partner.Log("Broke up with {0}", person.Name);
+            person.Log("I had a divorce with {0}.", person.Partner.Name);
+            person.Partner.Log("I had a divorce with {0}.", person.Name);
+            person.RemoveFlag(RomanticFlags.MarriedFlag);
+            person.Partner.RemoveFlag(RomanticFlags.MarriedFlag);
             person.Partner.History.Divorces.Add(person);
-            person.Partner.Partner = null;
             person.History.Divorces.Add(person.Partner);
+            person.Partner.Partner = null;
             person.Partner = null;
 
             return true;
+        }
+
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
+        /// or Shadowrun)
+        /// This specific score provides situational-based modifiers.
+        /// </summary>
+        /// <param name="enactor">The enactor.</param>
+        /// <returns></returns>
+        public float ScoreEncounter(Person enactor)
+        {
+            return enactor.Personality.GetFacets()
+                .Where(
+                    facet =>
+                        enactor.Personality.GetDominantFacetType(facet) !=
+                        enactor.Partner.Personality.GetDominantFacetType(facet))
+                .Sum(facet => FacetInfluenceEnum.Minor.ToScore());
+        }
+
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// This specific score takes in Facets and modifiers the base score
+        /// by the amount of that person's personality and the int modifier.
+        /// </summary>
+        /// <returns></returns>
+        public System.Collections.Generic.IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
+        {
+            return new[]
+            {
+                Tuple.Create(FacetTypeEnum.SensitiveOrNervous, FacetInfluenceEnum.VeryMinor.ToScore()),
+                Tuple.Create(FacetTypeEnum.AnalyticalOrDetached, FacetInfluenceEnum.VeryMinor.ToScore())
+            };
         }
     }
 }

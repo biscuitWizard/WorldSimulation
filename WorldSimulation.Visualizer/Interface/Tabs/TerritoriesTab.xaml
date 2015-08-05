@@ -6,6 +6,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Tree View of the Territory Structure -->
+        <GroupBox Header="Territories">
+            <TreeView Name="TerritoryTreeView" SelectedItemChanged="TerritoryTreeView_OnSelectedItemChanged">
+
+            </TreeView>
+        </GroupBox>
+       
+        <!-- All the data on a given territory -->
+        <Grid Grid.Column="1">
             
+        </Grid>
     </Grid>
 </UserControl>

@@ -25,7 +25,7 @@
                 <tabs:PeopleTab x:Name="PeopleTab"/>
             </TabItem>
             <TabItem Header="Territories">
-                <tabs:TerritoriesTab/>
+                <tabs:TerritoriesTab x:Name="TerritoriesTab"/>
             </TabItem>
             <TabItem Header="Organizations">
                 <tabs:OrganizationsTab/>

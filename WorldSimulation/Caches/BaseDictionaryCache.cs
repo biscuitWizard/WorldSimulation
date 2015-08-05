@@ -25,7 +25,12 @@ namespace WorldSimulation.Caches
             // Save all constituents.
             foreach (var property in _propertyInfo)
             {
-                foreach (T constituent in (IEnumerable<T>)property.GetValue(entity))
+                var value = (IEnumerable<T>)property.GetValue(entity);
+                if (value == null)
+                {
+                    continue;
+                }
+                foreach (T constituent in value)
                 {
                     if (!_data.ContainsKey(constituent.Id.Value))
                     {

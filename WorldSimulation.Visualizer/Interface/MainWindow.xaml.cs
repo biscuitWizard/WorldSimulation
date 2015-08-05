@@ -31,6 +31,8 @@ namespace WorldSimulation.Visualizer.Interface
             {
                 PeopleTab.AddPerson(person);
             }
+
+            TerritoriesTab.LoadTerritoryRoot(simulation.RootTerritory);
         }
     }
 }

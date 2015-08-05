@@ -149,6 +149,11 @@ namespace WorldSimulation
             return this;
         }
 
+        public Territory GetRootTerritory()
+        {
+            return _rootTerritory;
+        }
+
         /// <summary>
         /// Includes the population life cycle. This is called if you add any life events
         /// to the universe, so no need to call it twice.

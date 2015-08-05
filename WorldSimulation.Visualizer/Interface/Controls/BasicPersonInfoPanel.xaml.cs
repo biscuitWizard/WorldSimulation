@@ -73,8 +73,7 @@ namespace WorldSimulation.Visualizer.Interface.Controls
 
             foreach (var flag in person.GetFlags())
             {
-                FlagsBlock.Inlines.Add((flag.Value ? flag.Name : string.Format("{0} ({1})", flag.Name, flag.Value)) +
-                                       Environment.NewLine);
+                FlagsBlock.Inlines.Add(flag.Name + Environment.NewLine);
             }
         }
 

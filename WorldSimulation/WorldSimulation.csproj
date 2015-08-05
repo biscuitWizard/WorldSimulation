@@ -91,7 +91,9 @@
     <Compile Include="Entities\CommodityInstance.cs" />
     <Compile Include="Entities\Organization.cs" />
     <Compile Include="Flags\FlagCategory.cs" />
+    <Compile Include="Flags\IdentityFlags.cs" />
     <Compile Include="Flags\RomanticFlags.cs" />
+    <Compile Include="Flags\TravelFlags.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Flag.cs" />
     <Compile Include="People\FacetInfluenceEnum.cs" />

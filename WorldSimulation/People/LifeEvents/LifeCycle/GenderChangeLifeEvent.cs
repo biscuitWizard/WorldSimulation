@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 using WorldSimulation.People.Generators;
 
 namespace WorldSimulation.People.LifeEvents
@@ -17,9 +18,9 @@ namespace WorldSimulation.People.LifeEvents
         public bool CanEncounter(Person person)
         {
             return person.Age >= 8
-                   && person.HasFlag("Transgender")
-                   && !person.HasFlag("Transistioned")
-                   && !person.HasFlag("Transistioning");
+                   && person.HasFlag(IdentityFlags.TransgenderFlag)
+                   && !person.HasFlag(IdentityFlags.TransitionedFlag)
+                   && !person.HasFlag(IdentityFlags.TransitioningFlag);
         }
 
         public float ScoreEncounter(Person enactor)
@@ -40,7 +41,7 @@ namespace WorldSimulation.People.LifeEvents
             person.FirstName = _firstNameGenerator.Build(person).FirstName;
             person.Log(string.Format("Changed their name to {0} {1} and is now transistioning", person.FirstName,
                 person.FamilyName));
-            person.AddFlag("Transistioning");
+            person.AddFlag(IdentityFlags.TransitioningFlag);
 
             return true;
         }

@@ -37,8 +37,8 @@ namespace WorldSimulation.People.LifeEvents.Relations
 
             if (person.HasFlag(RomanticFlags.EngagedFlag))
             {
-                person.RemoveFlag(RomanticFlags.EngagedFlag);
-                mate.RemoveFlag(RomanticFlags.EngagedFlag);
+                person.ClearFlag(RomanticFlags.EngagedFlag);
+                mate.ClearFlag(RomanticFlags.EngagedFlag);
             }
 
             person.Population.SaveChanges(mate);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents
 {
@@ -8,26 +9,26 @@ namespace WorldSimulation.People.LifeEvents
     {
         public bool CanEncounter(Person person)
         {
-            return person.HasFlag("Transgender") 
-                && person.HasFlag("Transitioning");
+            return person.HasFlag(IdentityFlags.TransgenderFlag) 
+                && person.HasFlag(IdentityFlags.TransitioningFlag);
         }
 
         public float ScoreEncounter(Person enactor)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            throw new NotImplementedException();
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         public bool Encounter(Person person)
         {
-            person.AddFlag("Transistioned");
-            person.RemoveFlag("Transistioning");
+            person.AddFlag(IdentityFlags.TransitionedFlag);
+            person.ClearFlag(IdentityFlags.TransitioningFlag);
             person.Sex = person.Gender;
-            person.Log("Had a sex change to {0}.", person.Sex);
+            person.Log("I had a sex change to {0}.", person.Sex);
 
             return true;
         }

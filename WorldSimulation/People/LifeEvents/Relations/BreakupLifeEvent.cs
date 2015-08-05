@@ -58,13 +58,13 @@ namespace WorldSimulation.People.LifeEvents.Relations
             var mate = person.Partner;
             if (person.HasFlag(RomanticFlags.DatingFlag))
             {
-                mate.RemoveFlag(RomanticFlags.DatingFlag);
-                person.RemoveFlag(RomanticFlags.DatingFlag);
+                mate.ClearFlag(RomanticFlags.DatingFlag);
+                person.ClearFlag(RomanticFlags.DatingFlag);
             }
             if (person.HasFlag(RomanticFlags.EngagedFlag))
             {
-                mate.RemoveFlag(RomanticFlags.EngagedFlag);
-                person.RemoveFlag(RomanticFlags.EngagedFlag);
+                mate.ClearFlag(RomanticFlags.EngagedFlag);
+                person.ClearFlag(RomanticFlags.EngagedFlag);
             }
 
             mate.Partner = null;

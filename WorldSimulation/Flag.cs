@@ -14,13 +14,6 @@ namespace WorldSimulation
         /// The name.
         /// </value>
         public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Flag"/> is true or false.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if value; otherwise, <c>false</c>.
-        /// </value>
-        public bool Value { get; set; }
 
         /// <summary>
         /// Gets or sets the category for the flag.
@@ -30,10 +23,14 @@ namespace WorldSimulation
         /// </value>
         public FlagCategory Category { get; set; }
 
-        protected Flag(string name, bool value, FlagCategory flagCategory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Flag"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="flagCategory">The flag category.</param>
+        protected Flag(string name, FlagCategory flagCategory)
         {
             Name = name;
-            Value = value;
             Category = flagCategory;
         }
 
@@ -41,11 +38,11 @@ namespace WorldSimulation
         /// Creates the specified name via a static factory method.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <param name="category">The category.</param>
         /// <returns></returns>
-        public static Flag Create(string name, bool value, FlagCategory category = FlagCategory.None)
+        public static Flag Create(string name, FlagCategory category = FlagCategory.None)
         {
-            return new Flag(name, value, category);
+            return new Flag(name, category);
         }
 
         /// <summary>
@@ -55,7 +52,7 @@ namespace WorldSimulation
         /// <returns></returns>
         public static Flag Create(string name)
         {
-            return new Flag(name, true, FlagCategory.None);
+            return new Flag(name, FlagCategory.None);
         }
     }
 }

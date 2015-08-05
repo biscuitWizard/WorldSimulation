@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.LifeCycle
 {
@@ -50,11 +51,11 @@ namespace WorldSimulation.People.LifeEvents.LifeCycle
                 score += FacetInfluenceEnum.Minor.ToScore();
             }
 
-            if (enactor.HasFlag("Dating"))
+            if (enactor.HasFlag(RomanticFlags.DatingFlag))
             {
                 score += FacetInfluenceEnum.Minor.ToScore();
             }
-            else if (enactor.HasFlag("Married"))
+            else if (enactor.HasFlag(RomanticFlags.MarriedFlag))
             {
                 score += FacetInfluenceEnum.Moderate.ToScore();
             }

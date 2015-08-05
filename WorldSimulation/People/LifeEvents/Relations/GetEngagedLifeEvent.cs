@@ -39,8 +39,8 @@ namespace WorldSimulation.People.LifeEvents.Relations
             var month = _random.Next(3, 8);
             person.AddFlag(RomanticFlags.EngagedFlag);
             person.Partner.AddFlag(RomanticFlags.EngagedFlag);
-            person.RemoveFlag(RomanticFlags.DatingFlag);
-            person.Partner.RemoveFlag(RomanticFlags.DatingFlag);
+            person.ClearFlag(RomanticFlags.DatingFlag);
+            person.Partner.ClearFlag(RomanticFlags.DatingFlag);
 
             person.Population.SaveChanges(person.Partner);
 

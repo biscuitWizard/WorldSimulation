@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 using WorldSimulation.Worlds;
 
 namespace WorldSimulation.People.LifeEvents.Locations
@@ -25,8 +26,8 @@ namespace WorldSimulation.People.LifeEvents.Locations
         public bool CanEncounter(Person person)
         {
             return (person.Age > 16
-                || (person.HasFlag("Orphan") && person.Age > 12))
-                && !person.HasFlag("Settled")
+                || (person.HasFlag(IdentityFlags.OrphanFlag) && person.Age > 12))
+                && !person.HasFlag(TravelFlags.SettledFlag)
                 && person.Profession == null;
         }
 
@@ -44,7 +45,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
         {
             var finalTerritory = _rootTerritory.GetLiveableTerritories().First(t => t != person.Location);
 
-            person.AddFlag("Settled");
+            person.AddFlag(TravelFlags.SettledFlag);
             finalTerritory.MovePerson(person);
             person.Log("I have settled permanently at {0}.", person.Location.Name);
 

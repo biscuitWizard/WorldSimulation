@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
@@ -68,7 +69,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
                 parent.Children.Remove(child);
             }
             child.Parents = null;
-            child.AddFlag("Orphan");
+            child.AddFlag(IdentityFlags.OrphanFlag);
             child.Population.SaveChanges(child);
 
             return true;

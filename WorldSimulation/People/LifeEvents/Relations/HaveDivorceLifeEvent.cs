@@ -19,8 +19,8 @@ namespace WorldSimulation.People.LifeEvents.Relations
             var mate = person.Partner;
             person.Log("I had a divorce with {0}.", mate.Name);
             mate.Log("I had a divorce with {0}.", person.Name);
-            person.RemoveFlag(RomanticFlags.MarriedFlag);
-            mate.RemoveFlag(RomanticFlags.MarriedFlag);
+            person.ClearFlag(RomanticFlags.MarriedFlag);
+            mate.ClearFlag(RomanticFlags.MarriedFlag);
             mate.History.Divorces.Add(person);
             person.History.Divorces.Add(mate);
             mate.Partner = null;

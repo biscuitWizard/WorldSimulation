@@ -9,6 +9,8 @@ namespace WorldSimulation.Flags
     public enum FlagCategory
     {
         None,
-        Romantic
+        Romantic,
+        Location,
+        Identity
     }
 }

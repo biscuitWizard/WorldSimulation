@@ -1,5 +1,6 @@
 ﻿using System;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.Generators
 {
@@ -47,7 +48,7 @@ namespace WorldSimulation.People.Generators
 
             // Transgender?
             if (0.063474382 > _random.NextDouble())
-                person.AddFlag("Transgender");
+                person.AddFlag(IdentityFlags.TransgenderFlag);
 
             // Generate Personality
             person.Personality = Personality.CreateRandom(_random);

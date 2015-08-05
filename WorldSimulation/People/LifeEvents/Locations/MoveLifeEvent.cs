@@ -18,7 +18,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
         public bool CanEncounter(Person person)
         {
             return person.Age > 16
-                   && !person.HasFlag("Settled")
+                   && !person.HasFlag(TravelFlags.SettledFlag)
                    && person.Profession == null;
         }
 
@@ -26,7 +26,7 @@ namespace WorldSimulation.People.LifeEvents.Locations
         {
             var newTerritory = _availableTerritory.GetLiveableTerritories().First(t => t != person.Location);
             newTerritory.MovePerson(person);
-            person.Log("Has moved to a new home at {0}", newTerritory.Name);
+            person.Log("I've moved to a new home at {0}", newTerritory.Name);
 
             if (person.Partner != null)
             {
@@ -46,12 +46,12 @@ namespace WorldSimulation.People.LifeEvents.Locations
 
         public float ScoreEncounter(Person enactor)
         {
-            if (enactor.HasFlag("Dating"))
+            if (enactor.HasFlag(RomanticFlags.DatingFlag))
             {
                 return FacetInfluenceEnum.Minor.ToScore()*-1;
             }
             
-            if (enactor.HasFlag("Engaged") || enactor.HasFlag("Married"))
+            if (enactor.HasFlag(RomanticFlags.EngagedFlag) || enactor.HasFlag(RomanticFlags.MarriedFlag))
             {
                 return FacetInfluenceEnum.Major.ToScore()*-1;
             }

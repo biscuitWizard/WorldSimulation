@@ -24,12 +24,12 @@ namespace WorldSimulation.People.LifeEvents
 
         public float ScoreEncounter(Person enactor)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            throw new NotImplementedException();
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         public bool Encounter(Person person)

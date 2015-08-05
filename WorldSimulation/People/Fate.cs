@@ -79,6 +79,11 @@ namespace WorldSimulation.People
             return _peaks.Contains(months);
         }
 
+        public bool IsValleyDay(int months)
+        {
+            return _valleys.Contains(months);
+        }
+
         public Tuple<double, int>[] GetValleys(double[] data)
         {
             return data.WithNextAndPrevious()

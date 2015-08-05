@@ -22,7 +22,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
         /// </returns>
         public bool CanEncounter(Person person)
         {
-            return person.Children.Any();
+            return person.Children.Any(c => c.Age < 3);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
         /// <exception cref="System.NotImplementedException"></exception>
         float ILifeEvent.ScoreEncounter(Person enactor)
         {
-            throw new NotImplementedException();
+            return -5;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
         /// <exception cref="System.NotImplementedException"></exception>
         public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            throw new NotImplementedException();
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         /// <summary>
@@ -61,7 +61,16 @@ namespace WorldSimulation.People.LifeEvents.Relations
         /// <exception cref="System.NotImplementedException"></exception>
         public bool Encounter(Person person)
         {
-            throw new System.NotImplementedException();
+            // We're orphaning a child! Fuck you, kid!
+            var child = person.Children.OrderByDescending(c => c.Age).First();
+            foreach (var parent in child.Parents)
+            {
+                parent.Children.Remove(child);
+            }
+            child.Parents = null;
+            child.AddFlag("Orphan");
+
+            return true;
         }
     }
 }

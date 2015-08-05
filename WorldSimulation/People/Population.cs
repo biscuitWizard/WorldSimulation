@@ -11,17 +11,12 @@ namespace WorldSimulation.People
 {
     public class Population
     {
-        private const int MaxLifeEventQuota = 120;
-
         private readonly IList<ILifeEvent> _lifeEvents;
         private readonly PersonBuilder _personBuilder;
         private readonly IPersonCache _personCache;
         private readonly Random _random;
         private readonly Timeline _timeline;
         private readonly Territory _rootTerritory;
-
-        private readonly IDictionary<ulong, Tuple<int, int>> _playerLifeEventQuotas
-            = new Dictionary<ulong, Tuple<int, int>>();
 
         public Population(Timeline timeline,
             IList<ILifeEvent> lifeEvents,
@@ -38,15 +33,14 @@ namespace WorldSimulation.People
             _random = random;
 
             // Random location for start pop.
-            var territory = rootTerritory.GetLiveableTerritories().First();
+            var territory = rootTerritory.GetLiveableTerritories();
 
-            for (var i = 0; i < 24; i++)
+            for (var i = 0; i < 200; i++)
             {
-                var person = _personBuilder.Build(null, null);
+                var person = _personBuilder.Build();
                 person.Population = this;
-                person.Location = territory;
-                person = personCache.Save(person);
-                _playerLifeEventQuotas.Add(person.Id.Value, Tuple.Create(0, MaxLifeEventQuota));
+                person.Location = territory.OrderBy(_ => Guid.NewGuid()).First();
+                personCache.Save(person);
             }
             timeline.MonthElapsed += Timeline_MonthElapsed;
         }
@@ -58,7 +52,6 @@ namespace WorldSimulation.People
             child.Location = mother.Location;
 
             child = _personCache.Save(child);
-            _playerLifeEventQuotas.Add(child.Id.Value, Tuple.Create(0, MaxLifeEventQuota));
             return child;
         }
 
@@ -68,22 +61,22 @@ namespace WorldSimulation.People
             //    _personCache.ReadWhere(p => !p.Deceased)
             //    .Select(person => Task.Run(() => DoLifeCycle(person)))
             //    .ToArray());
-            foreach (var person in _personCache.ReadWhere(p => !p.Deceased))
+            foreach (var person in _personCache.ReadWhere(p => !p.Deceased).Select(p => p.Id.Value))
             {
                 DoLifeCycle(person);
             }
         }
 
-        protected void DoLifeCycle(Person person)
+        protected void DoLifeCycle(ulong personId)
         {
-            if (person.BirthDate.Month == _timeline.Month)
+            var person = _personCache.Read(personId);
+
+            if (person.Deceased)
             {
-                // Happy birthday!
-                person.Age++;
-                _playerLifeEventQuotas[person.Id.Value] = Tuple.Create(0, MaxLifeEventQuota);
+                // Just check for expired data.
+                return;
             }
 
-           
             // For the purposes of a simple simulation, only 0-1 life events can happen in a single tick.
             if (person.IsMajorEventDate((_timeline.CurrentDate - person.BirthDate).Days/30))
             {
@@ -123,7 +116,10 @@ namespace WorldSimulation.People
             if (person.Deceased)
             {
                 _personCache.MoveToGrave(person);
-                _playerLifeEventQuotas.Remove(person.Id.Value);
+            }
+            else
+            {
+                _personCache.Save(person);
             }
         }
     }

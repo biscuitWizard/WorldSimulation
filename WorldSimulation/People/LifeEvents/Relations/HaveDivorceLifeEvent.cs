@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
@@ -9,15 +10,18 @@ namespace WorldSimulation.People.LifeEvents.Relations
         public bool CanEncounter(Person person)
         {
             return person.Partner != null
-                && person.HasFlag("Married");
+                && person.HasFlag(RomanticFlags.MarriedFlag)
+                && person.Partner.HasFlag(RomanticFlags.MarriedFlag);
         }
         public bool Encounter(Person person)
         {
             person.Log("I had a divorce with {0}.", person.Partner.Name);
             person.Partner.Log("I had a divorce with {0}.", person.Name);
+            person.RemoveFlag(RomanticFlags.MarriedFlag);
+            person.Partner.RemoveFlag(RomanticFlags.MarriedFlag);
             person.Partner.History.Divorces.Add(person);
-            person.Partner.Partner = null;
             person.History.Divorces.Add(person.Partner);
+            person.Partner.Partner = null;
             person.Partner = null;
 
             return true;

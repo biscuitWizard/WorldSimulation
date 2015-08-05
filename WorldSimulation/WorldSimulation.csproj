@@ -90,6 +90,8 @@
     <Compile Include="Entities\CommodityBlueprint.cs" />
     <Compile Include="Entities\CommodityInstance.cs" />
     <Compile Include="Entities\Organization.cs" />
+    <Compile Include="Flags\FlagCategory.cs" />
+    <Compile Include="Flags\RomanticFlags.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Flag.cs" />
     <Compile Include="People\FacetInfluenceEnum.cs" />
@@ -162,9 +164,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="People\LifeEvents\Relations\Social\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Data\CountryNames.txt" />
     <EmbeddedResource Include="Data\PlanetNames.txt" />

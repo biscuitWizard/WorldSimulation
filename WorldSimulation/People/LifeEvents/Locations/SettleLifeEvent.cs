@@ -32,25 +32,21 @@ namespace WorldSimulation.People.LifeEvents.Locations
 
         public float ScoreEncounter(Person enactor)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            throw new NotImplementedException();
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         public bool Encounter(Person person)
         {
-            var finalTerritory = person.Location;
-            if (_random.SuccessfulChance(ChanceToMove))
-            {
-                finalTerritory = _rootTerritory.GetLiveableTerritories().First(t => t != finalTerritory);
-            }
+            var finalTerritory = _rootTerritory.GetLiveableTerritories().First(t => t != person.Location);
 
             person.AddFlag("Settled");
             finalTerritory.MovePerson(person);
-            person.Log("I have settled permanently at {0}", person.Location.Name);
+            person.Log("I have settled permanently at {0}.", person.Location.Name);
 
             return true;
         }

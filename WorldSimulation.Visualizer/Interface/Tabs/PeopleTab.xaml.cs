@@ -114,6 +114,7 @@ namespace WorldSimulation.Visualizer.Interface.Tabs
             InfoPanel.LoadPerson(person);
 
             // History
+            HistoryBlock.Inlines.Clear();
             foreach (var historyLine in person.History.Log)
             {
                 HistoryBlock.Inlines.Add(historyLine + Environment.NewLine);

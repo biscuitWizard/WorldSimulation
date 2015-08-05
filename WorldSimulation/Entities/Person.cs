@@ -8,7 +8,7 @@ namespace WorldSimulation.Entities
 {
     public class Person : DataEntity
     {
-        public int Age { get; set; }
+        public int Age { get { return (int)(_timeline.CurrentDate - BirthDate).TotalDays / 365; } }
         public string Sex { get; set; }
         public string Gender { get; set; }
         public Profession Profession { get; set; }
@@ -75,9 +75,11 @@ namespace WorldSimulation.Entities
             = new List<string>();
 
         private readonly PersonalHistory _history;
+        private readonly Timeline _timeline;
 
-        public Person()
+        public Person(Timeline timeline)
         {
+            _timeline = timeline;
             Children = new List<Person>();
             _history = new PersonalHistory(this);
         }
@@ -97,7 +99,7 @@ namespace WorldSimulation.Entities
 
         public bool IsMajorEventDate(int months)
         {
-            return Fate.IsPeakDay(months);
+            return Fate.IsPeakDay(months) || Fate.IsValleyDay(months);
         }
     }
 }

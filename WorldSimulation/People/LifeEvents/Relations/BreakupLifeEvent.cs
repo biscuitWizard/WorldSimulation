@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
@@ -22,22 +20,56 @@ namespace WorldSimulation.People.LifeEvents.Relations
         public bool CanEncounter(Person person)
         {
             return person.Partner != null
-                   && person.HasFlag("Dating");
+                && person.HasFlag(RomanticFlags.DatingFlag)
+                && person.Partner.HasFlag(RomanticFlags.DatingFlag);
         }
 
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// (This is like a Target Number Modifier in more colloquial games like Dungeons and Dragons,
+        /// or Shadowrun)
+        /// This specific score provides situational-based modifiers.
+        /// </summary>
+        /// <param name="enactor">The enactor.</param>
+        /// <returns></returns>
         float ILifeEvent.ScoreEncounter(Person enactor)
         {
-            throw new NotImplementedException();
+            return FacetInfluenceEnum.VeryMinor.ToScore() * -1;
         }
 
+        /// <summary>
+        /// Scoring an encounter takes various bits about a person and calculates a score
+        /// that will be used to determine whether or not this person will do this event.
+        /// This specific score takes in Facets and modifiers the base score
+        /// by the amount of that person's personality and the int modifier.
+        /// </summary>
+        /// <returns></returns>
         public IList<Tuple<FacetTypeEnum, int>> ScorePersonalityEncounter()
         {
-            throw new NotImplementedException();
+            return new Tuple<FacetTypeEnum, int>[0];
         }
 
         public bool Encounter(Person person)
         {
-            throw new NotImplementedException();
+            person.Log("I broke up with {0}.", person.Partner.Name);
+            person.Partner.Log("I broke up with {0}.", person.Name);
+
+            if (person.HasFlag(RomanticFlags.DatingFlag))
+            {
+                person.Partner.RemoveFlag(RomanticFlags.DatingFlag);
+                person.RemoveFlag(RomanticFlags.DatingFlag);
+            }
+            if (person.HasFlag(RomanticFlags.EngagedFlag))
+            {
+                person.Partner.RemoveFlag(RomanticFlags.EngagedFlag);
+                person.RemoveFlag(RomanticFlags.EngagedFlag);
+            }
+
+            person.Partner.Partner = null;
+            person.Partner = null;
+
+            return true;
         }
     }
 }

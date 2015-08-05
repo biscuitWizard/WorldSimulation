@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorldSimulation.Entities;
+using WorldSimulation.Flags;
 
 namespace WorldSimulation.People.LifeEvents.Relations
 {
@@ -9,9 +10,9 @@ namespace WorldSimulation.People.LifeEvents.Relations
     {
         public bool CanEncounter(Person person)
         {
-            return person.Age >= 16
-                   && person.Partner == null
-                   && (person.HasFlag("Engaged") || person.HasFlag("Dating"));
+            return person.Partner != null
+                   && person.Partner.HasFlag(RomanticFlags.EngagedFlag)
+                   && person.HasFlag(RomanticFlags.EngagedFlag);
         }
 
         public float ScoreEncounter(Person enactor)
@@ -35,19 +36,13 @@ namespace WorldSimulation.People.LifeEvents.Relations
             mate.Partner = person;
             person.Log("I married {0}.", mate.Name);
             mate.Log("I married {0}. ", person.Name);
-            person.AddFlag("Married");
-            mate.AddFlag("Married");
+            person.AddFlag(RomanticFlags.MarriedFlag);
+            mate.AddFlag(RomanticFlags.MarriedFlag);
 
-            if (person.HasFlag("Dating"))
+            if (person.HasFlag(RomanticFlags.EngagedFlag))
             {
-                person.RemoveFlag("Dating");
-                mate.RemoveFlag("Dating");
-            }
-
-            if (person.HasFlag("Engaged"))
-            {
-                person.RemoveFlag("Engaged");
-                mate.RemoveFlag("Engaged");
+                person.RemoveFlag(RomanticFlags.EngagedFlag);
+                mate.RemoveFlag(RomanticFlags.EngagedFlag);
             }
 
             return true;

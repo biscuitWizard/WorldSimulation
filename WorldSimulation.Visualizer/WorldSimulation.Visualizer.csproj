@@ -57,10 +57,6 @@
     <StartupObject>WorldSimulation.Visualizer.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ArrayT, Version=2.0.5.0, Culture=neutral, PublicKeyToken=d57b0d6d53cb1fc1, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Sho 2.1\bin\bin32\ArrayT.dll</HintPath>
-    </Reference>
     <Reference Include="MathFunc, Version=2.0.5.0, Culture=neutral, PublicKeyToken=af39242306d6159d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Sho 2.1\bin\MathFunc.dll</HintPath>

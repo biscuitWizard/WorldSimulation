@@ -30,11 +30,14 @@ namespace WorldSimulation.People.LifeEvents.Locations
 
             if (person.Partner != null)
             {
-                person.Log("I broke up with {0} to move.", person.Partner.Name);
-                person.Partner.ClearFlags(FlagCategory.Romantic);
+                var mate = person.Partner;
+
+                person.Log("I broke up with {0} to move.", mate.Name);
+                mate.ClearFlags(FlagCategory.Romantic);
                 person.ClearFlags(FlagCategory.Romantic);
-                person.Partner.Partner = null;
+                mate.Partner = null;
                 person.Partner = null;
+                person.Population.SaveChanges(mate);
             }
 
             return true;

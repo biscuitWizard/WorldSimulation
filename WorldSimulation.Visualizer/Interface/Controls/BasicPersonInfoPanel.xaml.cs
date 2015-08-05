@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorldSimulation.Caches;
 using WorldSimulation.Entities;
 
 namespace WorldSimulation.Visualizer.Interface.Controls
@@ -21,6 +22,8 @@ namespace WorldSimulation.Visualizer.Interface.Controls
     /// </summary>
     public partial class BasicPersonInfoPanel : UserControl
     {
+        public event EventHandler<ulong> NavigatePersonRequest;
+
         public BasicPersonInfoPanel()
         {
             InitializeComponent();
@@ -38,7 +41,7 @@ namespace WorldSimulation.Visualizer.Interface.Controls
                 && person.Partner.Id.HasValue)
             {
                 var hyperlink = new Hyperlink();
-                hyperlink.Click += HyperlinkOnClick;
+                hyperlink.RequestNavigate += HyperlinkOnRequestNavigate;
                 hyperlink.Inlines.Add(person.Partner.Name);
                 hyperlink.NavigateUri = new Uri("person://" + person.Partner.Id.Value);
                 SpouseBlock.Inlines.Add(hyperlink);
@@ -55,7 +58,7 @@ namespace WorldSimulation.Visualizer.Interface.Controls
             foreach (var child in person.Children)
             {
                 var hyperlink = new Hyperlink();
-                hyperlink.Click += HyperlinkOnClick;
+                hyperlink.RequestNavigate += HyperlinkOnRequestNavigate;
                 hyperlink.Inlines.Add(child.Name);
                 ChildrenBlock.Inlines.Add(hyperlink);
                 if (person.Children.Count > index + 1)
@@ -75,6 +78,16 @@ namespace WorldSimulation.Visualizer.Interface.Controls
             }
         }
 
+        private void HyperlinkOnRequestNavigate(object sender, RequestNavigateEventArgs requestNavigateEventArgs)
+        {
+            var id = ulong.Parse(requestNavigateEventArgs.Uri.Host);
+
+            if (NavigatePersonRequest != null)
+            {
+                NavigatePersonRequest.Invoke(this, id);
+            }
+        }
+
         public void Clear()
         {
             FirstNameLastNameBlock.Text = string.Empty;
@@ -85,11 +98,6 @@ namespace WorldSimulation.Visualizer.Interface.Controls
             ProfessionBlock.Text = string.Empty;
             ChildrenBlock.Inlines.Clear();
             FlagsBlock.Inlines.Clear();
-        }
-
-        private void HyperlinkOnClick(object sender, RoutedEventArgs routedEventArgs)
-        {
-            throw new NotImplementedException();
         }
     }
 }

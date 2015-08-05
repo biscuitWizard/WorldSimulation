@@ -69,6 +69,7 @@ namespace WorldSimulation.People.LifeEvents.Relations
             }
             child.Parents = null;
             child.AddFlag("Orphan");
+            child.Population.SaveChanges(child);
 
             return true;
         }

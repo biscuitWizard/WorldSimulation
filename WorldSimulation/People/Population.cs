@@ -67,6 +67,11 @@ namespace WorldSimulation.People
             }
         }
 
+        public void SaveChanges(Person person)
+        {
+            _personCache.Save(person);
+        }
+
         protected void DoLifeCycle(ulong personId)
         {
             var person = _personCache.Read(personId);

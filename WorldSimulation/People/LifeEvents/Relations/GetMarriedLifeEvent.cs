@@ -27,13 +27,9 @@ namespace WorldSimulation.People.LifeEvents.Relations
 
         public bool Encounter(Person person)
         {
-            var mate = FindMate(person.Population, person);
-            if (mate == null)
-                return false;
+            var mate = person.Partner;
 
             // Mate them up!
-            person.Partner = mate;
-            mate.Partner = person;
             person.Log("I married {0}.", mate.Name);
             mate.Log("I married {0}. ", person.Name);
             person.AddFlag(RomanticFlags.MarriedFlag);
@@ -45,15 +41,9 @@ namespace WorldSimulation.People.LifeEvents.Relations
                 mate.RemoveFlag(RomanticFlags.EngagedFlag);
             }
 
-            return true;
-        }
+            person.Population.SaveChanges(mate);
 
-        protected virtual Person FindMate(Population population, Person seeker)
-        {
-            var potentialMates = seeker.Location.GetPeopleWhere(p =>
-                !p.Deceased && p.Age > 16 && p.Partner == null && seeker.Age - p.Age < 7 &&
-                p.Age - seeker.Age < 6 && p.Id != seeker.Id);
-            return !potentialMates.Any() ? null : potentialMates.First();
+            return true;
         }
     }
 }

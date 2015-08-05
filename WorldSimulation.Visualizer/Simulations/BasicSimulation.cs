@@ -54,7 +54,7 @@ namespace WorldSimulation.Visualizer.Simulations
             _population = new Population(
                 _timeline,
                 new ILifeEvent[] {
-			//new GetMarriedLifeEvent(),
+			new GetMarriedLifeEvent(),
             new StartDatingLifeEvent(), 
             new OrphanChildLifeEvent(), 
             new GetEngagedLifeEvent(_random),

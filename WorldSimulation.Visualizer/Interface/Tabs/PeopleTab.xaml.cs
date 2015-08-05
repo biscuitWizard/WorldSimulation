@@ -120,5 +120,17 @@ namespace WorldSimulation.Visualizer.Interface.Tabs
                 HistoryBlock.Inlines.Add(historyLine + Environment.NewLine);
             }
         }
+
+        private void InfoPanel_OnNavigatePersonRequest(object sender, ulong e)
+        {
+            var person = _people.FirstOrDefault(p => p.Id.Equals(e));
+            if (person == null)
+            {
+                // Fetch the person in a read.
+                //AddPerson(e);
+            }
+
+            ListBoxPeople.SelectedItem = person;
+        }
     }
 }

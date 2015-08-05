@@ -13,16 +13,20 @@ namespace WorldSimulation.People.LifeEvents.Relations
                 && person.HasFlag(RomanticFlags.MarriedFlag)
                 && person.Partner.HasFlag(RomanticFlags.MarriedFlag);
         }
+
         public bool Encounter(Person person)
         {
-            person.Log("I had a divorce with {0}.", person.Partner.Name);
-            person.Partner.Log("I had a divorce with {0}.", person.Name);
+            var mate = person.Partner;
+            person.Log("I had a divorce with {0}.", mate.Name);
+            mate.Log("I had a divorce with {0}.", person.Name);
             person.RemoveFlag(RomanticFlags.MarriedFlag);
-            person.Partner.RemoveFlag(RomanticFlags.MarriedFlag);
-            person.Partner.History.Divorces.Add(person);
-            person.History.Divorces.Add(person.Partner);
-            person.Partner.Partner = null;
+            mate.RemoveFlag(RomanticFlags.MarriedFlag);
+            mate.History.Divorces.Add(person);
+            person.History.Divorces.Add(mate);
+            mate.Partner = null;
             person.Partner = null;
+
+            person.Population.SaveChanges(mate);
 
             return true;
         }

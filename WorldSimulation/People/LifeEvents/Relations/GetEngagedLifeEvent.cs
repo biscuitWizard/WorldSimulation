@@ -42,6 +42,8 @@ namespace WorldSimulation.People.LifeEvents.Relations
             person.RemoveFlag(RomanticFlags.DatingFlag);
             person.Partner.RemoveFlag(RomanticFlags.DatingFlag);
 
+            person.Population.SaveChanges(person.Partner);
+
             return true;
         }
     }

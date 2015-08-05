@@ -55,19 +55,22 @@ namespace WorldSimulation.People.LifeEvents.Relations
             person.Log("I broke up with {0}.", person.Partner.Name);
             person.Partner.Log("I broke up with {0}.", person.Name);
 
+            var mate = person.Partner;
             if (person.HasFlag(RomanticFlags.DatingFlag))
             {
-                person.Partner.RemoveFlag(RomanticFlags.DatingFlag);
+                mate.RemoveFlag(RomanticFlags.DatingFlag);
                 person.RemoveFlag(RomanticFlags.DatingFlag);
             }
             if (person.HasFlag(RomanticFlags.EngagedFlag))
             {
-                person.Partner.RemoveFlag(RomanticFlags.EngagedFlag);
+                mate.RemoveFlag(RomanticFlags.EngagedFlag);
                 person.RemoveFlag(RomanticFlags.EngagedFlag);
             }
 
-            person.Partner.Partner = null;
+            mate.Partner = null;
             person.Partner = null;
+
+            person.Population.SaveChanges(mate);
 
             return true;
         }
